@@ -33,6 +33,33 @@ class DelivererController {
 
     return res.json(deliverer);
   }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails!' });
+    }
+
+    const { id } = req.body;
+
+    const deliverer = await Deliverer.findByPk(id);
+
+    const { name, email } = await deliverer.update(req.body);
+
+    return res.json({
+      id,
+      name,
+      email,
+    });
+  }
+
+  async delete(req, res) {
+    return res.json({ ok: true });
+  }
 }
 
 export default new DelivererController();
