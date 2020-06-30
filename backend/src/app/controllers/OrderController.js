@@ -89,6 +89,16 @@ class OrderController {
       calcelled_at,
     });
   }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    const order = await Order.findByPk(id);
+
+    await order.destroy();
+
+    return res.json();
+  }
 }
 
 export default new OrderController();
