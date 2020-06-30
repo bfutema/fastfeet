@@ -6,8 +6,9 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import RecipientController from './app/controllers/RecipientController';
 import FileController from './app/controllers/FileController';
-import DelivererController from './app/controllers/DelivererController';
+import DeliveryManController from './app/controllers/DeliveryManController';
 import OrderController from './app/controllers/OrderController';
+import DeliveryController from './app/controllers/DeliveryController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -19,15 +20,29 @@ routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
 
+// Atualização do usuário logado (Desafio: 1/4)
 routes.put('/users', UserController.update);
 
+// Criação e atualização dos destinatários (Desafio: 1/4) OK
+routes.get('/recipients', RecipientController.index);
 routes.post('/recipients', RecipientController.store);
-routes.put('/recipients', RecipientController.update);
+routes.put('/recipients/:id', RecipientController.update);
+routes.delete('/recipients/:id', RecipientController.delete);
 
-routes.get('/deliverers', DelivererController.index);
-routes.post('/deliverers', DelivererController.store);
+// Listagem, criação, atualização e remoção de entregadores (Desafio: 2/4) OK
+routes.get('/deliverymans', DeliveryManController.index);
+routes.post('/deliverymans', DeliveryManController.store);
+routes.put('/deliverymans/:id', DeliveryManController.update);
+routes.delete('/deliverymans/:id', DeliveryManController.delete);
 
+// Listagem, criação, atualização e remoção de entregadores (Desafio: 2/4)
+routes.get('/orders', OrderController.index);
 routes.post('/orders', OrderController.store);
+routes.put('/orders/:id', OrderController.update);
+routes.delete('/orders/:id', OrderController.delete);
+
+routes.post('/deliveries', DeliveryController.store);
+routes.put('/deliveries', DeliveryController.update);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
