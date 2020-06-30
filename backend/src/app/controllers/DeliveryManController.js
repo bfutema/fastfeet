@@ -1,12 +1,16 @@
 import * as Yup from 'yup';
 
-import Deliverer from '../models/Deliverer';
+import DeliveryMan from '../models/DeliveryMan';
 import File from '../models/File';
 
-class DelivererController {
+class DeliveryManController {
   async index(req, res) {
-    const deliverers = await Deliverer.findAll({
-      attributes: ['id', 'name', 'email', 'avatar_id'],
+    const { page = 1 } = req.query;
+
+    const deliveryMans = await DeliveryMan.findAll({
+      attributes: ['id', 'name', 'email'],
+      limit: 20,
+      offset: (page - 1) * 20,
       include: [
         {
           model: File,
@@ -16,7 +20,7 @@ class DelivererController {
       ],
     });
 
-    return res.json(deliverers);
+    return res.json(deliveryMans);
   }
 
   async store(req, res) {
@@ -29,9 +33,9 @@ class DelivererController {
       return res.status(400).json({ error: 'Validation fails!' });
     }
 
-    const deliverer = await Deliverer.create(req.body);
+    const deliveryMan = await DeliveryMan.create(req.body);
 
-    return res.json(deliverer);
+    return res.json(deliveryMan);
   }
 
   async update(req, res) {
@@ -44,22 +48,27 @@ class DelivererController {
       return res.status(400).json({ error: 'Validation fails!' });
     }
 
-    const { id } = req.body;
+    const deliveryMan = await DeliveryMan.findByPk(req.params.id);
 
-    const deliverer = await Deliverer.findByPk(id);
-
-    const { name, email } = await deliverer.update(req.body);
+    const { id, name, email, avatar_id } = await deliveryMan.update(req.body);
 
     return res.json({
       id,
       name,
       email,
+      avatar_id,
     });
   }
 
   async delete(req, res) {
-    return res.json({ ok: true });
+    const { id } = req.params;
+
+    const deliveryMan = await DeliveryMan.findByPk(id);
+
+    await deliveryMan.destroy();
+
+    return res.json();
   }
 }
 
-export default new DelivererController();
+export default new DeliveryManController();
