@@ -1,0 +1,191 @@
+const faker = require('faker');
+
+const avatarIds = [1, 2, 3, 4, 5, 6];
+
+module.exports = {
+  up: (QueryInterface) => {
+    return QueryInterface.bulkInsert(
+      'delivery_mans',
+      [
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: faker.name.findName(),
+          avatar_id: avatarIds[Math.floor(Math.random() * avatarIds.length)],
+          email: faker.internet.email(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      ],
+      {}
+    );
+  },
+
+  down: () => {},
+};
