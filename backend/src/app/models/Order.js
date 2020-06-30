@@ -23,7 +23,7 @@ class Order extends Model {
       as: 'recipient',
     });
 
-    this.belongsTo(models.Deliverer, {
+    this.belongsTo(models.DeliveryMan, {
       foreignKey: 'deliveryman_id',
       as: 'deliveryman',
     });
