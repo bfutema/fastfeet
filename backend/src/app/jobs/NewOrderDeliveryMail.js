@@ -8,7 +8,7 @@ class NewOrderDeliveryMail {
   async handle({ data }) {
     const { deliveryMan, recipient, order } = data;
 
-    await Mail.sendMail({
+    await Mail.sendsMail({
       to: `${deliveryMan.name} <${deliveryMan.email}>`,
       subject: 'FastFeet - Nova encomenda',
       template: 'new-delivery',
