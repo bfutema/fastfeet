@@ -34,5 +34,6 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'import/no-unresolved': 'off',
     'import/no-useless-path-segments': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
 };
