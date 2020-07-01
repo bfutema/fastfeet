@@ -9,6 +9,7 @@ import FileController from './app/controllers/FileController';
 import DeliveryManController from './app/controllers/DeliveryManController';
 import OrderController from './app/controllers/OrderController';
 import DeliveryController from './app/controllers/DeliveryController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -54,6 +55,9 @@ routes.put(
   '/deliverymans/:deliveryman_id/deliveries/:id',
   DeliveryController.update
 );
+
+// Listagem e criação de problemas com a entrega (Desafio: 2/4)
+routes.post('/delivery/:id/problems', DeliveryProblemController.store);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
