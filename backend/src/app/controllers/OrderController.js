@@ -60,11 +60,20 @@ class OrderController {
     const order = await Order.create(req.body);
 
     const deliveryMan = await DeliveryMan.findByPk(req.body.deliveryman_id);
+    const recipient = await Recipient.findByPk(req.body.recipient_id);
 
     await Mail.sendMail({
       to: `${deliveryMan.name} <${deliveryMan.email}>`,
       subject: 'Nova encomenda',
-      text: 'Você tem uma nova encomenda para entregar!',
+      template: 'new-delivery',
+      context: {
+        deliveryMan: deliveryMan.name,
+        recipientName: recipient.name,
+        recipientAddress: `${recipient.street}, ${recipient.number} - ${recipient.city}`,
+        recipientZip: recipient.zip,
+        recipientComplement: recipient.complement,
+        product: order.product,
+      },
     });
 
     return res.json(order);
