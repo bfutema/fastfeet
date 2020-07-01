@@ -5,6 +5,19 @@ import Order from '../models/Order';
 import DeliveryProblem from '../models/DeliveryProblem';
 
 class DeliveryProblemController {
+  async list(req, res) {
+    const orders = await DeliveryProblem.findAll({
+      include: [
+        {
+          model: Order,
+          as: 'order',
+        },
+      ],
+    });
+
+    return res.json(orders);
+  }
+
   async index(req, res) {
     const { id } = req.params;
 
