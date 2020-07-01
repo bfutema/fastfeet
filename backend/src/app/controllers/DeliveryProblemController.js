@@ -6,7 +6,11 @@ import DeliveryProblem from '../models/DeliveryProblem';
 
 class DeliveryProblemController {
   async list(req, res) {
+    const { page } = req.query;
+
     const orders = await DeliveryProblem.findAll({
+      limit: 20,
+      offset: (page - 1) * 20,
       include: [
         {
           model: Order,
@@ -71,6 +75,26 @@ class DeliveryProblemController {
     });
 
     return res.json(deliveryProblem);
+  }
+
+  async delete(req, res) {
+    const { problem_id } = req.params;
+
+    const problem = await DeliveryProblem.findByPk(problem_id);
+
+    if (!problem) {
+      return res.status(401).json({
+        error:
+          'Cancellation of a delivery is not permitted without due problem!',
+        problem,
+      });
+    }
+
+    const order = await Order.findByPk(problem.delivery_id);
+
+    await order.update({ cancelled_at: new Date() });
+
+    return res.json();
   }
 }
 

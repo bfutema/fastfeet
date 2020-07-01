@@ -60,6 +60,10 @@ routes.put(
 routes.get('/delivery/problems', DeliveryProblemController.list);
 routes.get('/delivery/:id/problems', DeliveryProblemController.index);
 routes.post('/delivery/:id/problems', DeliveryProblemController.store);
+routes.delete(
+  '/problem/:problem_id/cancel-delivery',
+  DeliveryProblemController.delete
+);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
