@@ -57,6 +57,7 @@ routes.put(
 );
 
 // Listagem e criação de problemas com a entrega (Desafio: 2/4)
+routes.get('/delivery/:id/problems', DeliveryProblemController.index);
 routes.post('/delivery/:id/problems', DeliveryProblemController.store);
 
 routes.post('/files', upload.single('file'), FileController.store);
