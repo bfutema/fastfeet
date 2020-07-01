@@ -35,14 +35,25 @@ routes.post('/deliverymans', DeliveryManController.store);
 routes.put('/deliverymans/:id', DeliveryManController.update);
 routes.delete('/deliverymans/:id', DeliveryManController.delete);
 
-// Listagem, criação, atualização e remoção de entregadores (Desafio: 2/4)
+// Listagem, criação, atualização e remoção de encomendas (Desafio: 2/4) OK
 routes.get('/orders', OrderController.index);
 routes.post('/orders', OrderController.store);
 routes.put('/orders/:id', OrderController.update);
 routes.delete('/orders/:id', OrderController.delete);
 
-routes.post('/deliveries', DeliveryController.store);
-routes.put('/deliveries', DeliveryController.update);
+// Listagem, criação, atualização e remoção de encomendas do entregador (Desafio: 2/4) OK
+routes.get(
+  '/deliverymans/:deliveryman_id/deliveries',
+  DeliveryController.index
+);
+routes.post(
+  '/deliverymans/:deliveryman_id/deliveries',
+  DeliveryController.store
+);
+routes.put(
+  '/deliverymans/:deliveryman_id/deliveries/:id',
+  DeliveryController.update
+);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
