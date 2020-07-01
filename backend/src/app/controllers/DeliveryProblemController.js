@@ -2,7 +2,12 @@ import * as Yup from 'yup';
 import { Op } from 'sequelize';
 
 import Order from '../models/Order';
+import DeliveryMan from '../models/DeliveryMan';
+import Recipient from '../models/Recipient';
 import DeliveryProblem from '../models/DeliveryProblem';
+
+import CancellationOrderDeliveryMail from '../jobs/CancellationOrderDeliveryMail';
+import Queue from '../../lib/Queue';
 
 class DeliveryProblemController {
   async list(req, res) {
@@ -93,6 +98,15 @@ class DeliveryProblemController {
     const order = await Order.findByPk(problem.delivery_id);
 
     await order.update({ cancelled_at: new Date() });
+
+    const deliveryMan = await DeliveryMan.findByPk(order.deliveryman_id);
+    const recipient = await Recipient.findByPk(order.recipient_id);
+
+    await Queue.add(CancellationOrderDeliveryMail.key, {
+      deliveryMan,
+      recipient,
+      order,
+    });
 
     return res.json();
   }
