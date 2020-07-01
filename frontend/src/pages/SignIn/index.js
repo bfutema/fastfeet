@@ -1,25 +1,40 @@
 import React from 'react';
+import { Form, Input } from '@rocketseat/unform';
 
 import { Content } from './styles';
 
 import logo from '~/assets/fastfeet-logo.png';
 
 export default function SignIn() {
+  function handleSubmit(data) {
+    console.tron.log(data);
+  }
+
   return (
     <Content>
       <img src={logo} alt="FastFeet" />
 
-      <form>
+      <Form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Seu e-mail</label>
-          <input id="email" type="email" placeholder="exemplo@email.com" />
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="exemplo@email.com"
+          />
         </div>
         <div>
           <label htmlFor="password">Sua senha</label>
-          <input id="password" type="password" placeholder="*************" />
+          <Input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="*************"
+          />
         </div>
         <button type="submit">Entrar no sistema</button>
-      </form>
+      </Form>
     </Content>
   );
 }
