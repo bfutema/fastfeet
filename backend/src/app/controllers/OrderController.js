@@ -5,6 +5,8 @@ import Recipient from '../models/Recipient';
 import DeliveryMan from '../models/DeliveryMan';
 import File from '../models/File';
 
+import Mail from '../../lib/Mail';
+
 class OrderController {
   async index(req, res) {
     const { page = 1 } = req.query;
@@ -56,6 +58,14 @@ class OrderController {
     }
 
     const order = await Order.create(req.body);
+
+    const deliveryMan = await DeliveryMan.findByPk(req.body.deliveryman_id);
+
+    await Mail.sendMail({
+      to: `${deliveryMan.name} <${deliveryMan.email}>`,
+      subject: 'Nova encomenda',
+      text: 'Você tem uma nova encomenda para entregar!',
+    });
 
     return res.json(order);
   }
