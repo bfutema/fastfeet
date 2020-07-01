@@ -2,14 +2,14 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 import Route from './Route';
 
-import SignIn from '../pages/SignIn';
-import Dashboard from '../pages/Dashboard';
-import SaveDeliveryMan from '../pages/DeliveryMan/Save';
-import DeliveryMans from '../pages/DeliveryMan/List';
-import SaveOrder from '../pages/Order/Save';
-import Orders from '../pages/Order/List';
-import SaveRecipient from '../pages/Recipient/Save';
-import Recipients from '../pages/Recipient/List';
+import SignIn from '~/pages/SignIn';
+import Dashboard from '~/pages/Dashboard';
+import SaveDeliveryMan from '~/pages/DeliveryMan/Save';
+import DeliveryMans from '~/pages/DeliveryMan/List';
+import SaveOrder from '~/pages/Order/Save';
+import Orders from '~/pages/Order/List';
+import SaveRecipient from '~/pages/Recipient/Save';
+import Recipients from '~/pages/Recipient/List';
 
 export default function Routes() {
   return (

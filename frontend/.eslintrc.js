@@ -35,5 +35,13 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-useless-path-segments': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'import/no-extraneous-dependencies': 'off',
+  },
+  settings: {
+    'import/resolver': {
+      'babel-plugin-root-import': {
+        rootPathSuffix: 'src',
+      },
+    },
   },
 };
