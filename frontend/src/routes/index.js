@@ -10,6 +10,7 @@ import SaveOrder from '~/pages/Order/Save';
 import Orders from '~/pages/Order/List';
 import SaveRecipient from '~/pages/Recipient/Save';
 import Recipients from '~/pages/Recipient/List';
+import Problems from '~/pages/Problem';
 
 export default function Routes() {
   return (
@@ -25,6 +26,8 @@ export default function Routes() {
 
       <Route path="/save/recipient" component={SaveRecipient} isPrivate />
       <Route path="/recipients" component={Recipients} isPrivate />
+
+      <Route path="/problems" component={Problems} isPrivate />
 
       <Route path="/" component={() => <h4>404</h4>} />
     </Switch>

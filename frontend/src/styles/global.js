@@ -41,5 +41,6 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
     border: none;
+    background: none;
   }
 `;
