@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FiPlus } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
-import { Container, Content, Text } from './styles';
+import Content from './Content';
+
+import { CustomButton, CustomLink } from './styles';
 
 export default function Button({
   color,
@@ -10,22 +12,47 @@ export default function Button({
   fontSize,
   fontWeight,
   text,
+  type,
+  url,
 }) {
   return (
-    <Container color={color}>
-      <Content>
-        <FiPlus size={fontSize + 8} color={fontColor} />
-        <Text fontColor={fontColor} fontSize={fontSize} fontWeight={fontWeight}>
-          {text}
-        </Text>
-      </Content>
-    </Container>
+    <>
+      {type === 'button' || type === 'submit' ? (
+        <CustomButton
+          color={color}
+          type={`${type === 'submit' ? 'submit' : 'button'}`}
+        >
+          <Content
+            fontColor={fontColor}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            text={text}
+          />
+        </CustomButton>
+      ) : (
+        <CustomLink
+          color={color}
+          type={`${type === 'submit' ? 'submit' : 'button'}`}
+        >
+          <Link to={url}>
+            <Content
+              fontColor={fontColor}
+              fontSize={fontSize}
+              fontWeight={fontWeight}
+              text={text}
+            />
+          </Link>
+        </CustomLink>
+      )}
+    </>
   );
 }
 
 Button.defaultProps = {
   fontSize: 16,
   fontWeight: 'bold',
+  type: 'button',
+  url: '',
 };
 
 Button.propTypes = {
@@ -34,4 +61,6 @@ Button.propTypes = {
   fontSize: PropTypes.number,
   fontWeight: PropTypes.string,
   text: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  url: PropTypes.string,
 };

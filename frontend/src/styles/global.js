@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default createGlobalStyle`
   :root {
     --primary-color: #7d40e7;
+    --max-width: 1100px;
   }
 
   * {

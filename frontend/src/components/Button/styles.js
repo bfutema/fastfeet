@@ -1,24 +1,27 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const CustomButton = styled.button`
   background-color: ${(props) => props.color};
   border-radius: 4px;
   padding: 8px 16px;
 
   display: inline-block;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(90%);
+  }
 `;
 
-export const Content = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+export const CustomLink = styled.a`
+  background-color: ${(props) => props.color};
+  border-radius: 4px;
+  padding: 8px 16px;
 
-export const Text = styled.span`
-  color: ${(props) => props.fontColor};
-  font-size: ${(props) => `${props.fontSize}px`};
-  font-weight: ${(props) => (props.fontWeight === 'bold' ? 'bold' : 'normal')};
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-left: 5px;
+  display: inline-block;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(90%);
+  }
 `;
