@@ -2,6 +2,9 @@ import React from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
 import Table from '~/components/Table';
+import Badge from './Badge';
+
+import { Avatar } from './styles';
 
 export default function Orders() {
   return (
@@ -34,65 +37,95 @@ export default function Orders() {
           <tr>
             <td>#01</td>
             <td>Ludwing van Beetoven</td>
-            <td>John Doe</td>
+            <td>
+              <Avatar color="#A28FD0">JD</Avatar>
+              John Doe
+            </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
-            <td>Entregue</td>
+            <td>
+              <Badge status="delivered" text="Entregue" />
+            </td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>Ludwing van Beetoven</td>
-            <td>John Doe</td>
+            <td>#02</td>
+            <td>Wolfgang Amadeus</td>
+            <td>
+              <Avatar color="#CB946C">GA</Avatar>
+              Gaspar Antunes
+            </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
-            <td>Entregue</td>
+            <td>
+              <Badge status="pending" text="Pendente" />
+            </td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>Ludwing van Beetoven</td>
-            <td>John Doe</td>
+            <td>#03</td>
+            <td>Johann Sebastian Bach</td>
+            <td>
+              <Avatar color="#83CEC9">DJ</Avatar>
+              Dai Jiang
+            </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
-            <td>Entregue</td>
+            <td>
+              <Badge status="withdrawal" text="Retirada" />
+            </td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>Ludwing van Beetoven</td>
-            <td>John Doe</td>
+            <td>#04</td>
+            <td>Frédéric Chopin</td>
+            <td>
+              <Avatar color="#CC7584">TH</Avatar>
+              Tom Hanson
+            </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
-            <td>Entregue</td>
+            <td>
+              <Badge status="cancelled" text="Entregue" />
+            </td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>Ludwing van Beetoven</td>
-            <td>John Doe</td>
+            <td>#05</td>
+            <td>Piotr Ilitch Tchaikovski</td>
+            <td>
+              <Avatar color="#A8D080">MF</Avatar>
+              Marc Franklin
+            </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
-            <td>Entregue</td>
+            <td>
+              <Badge status="delivered" text="Entregue" />
+            </td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>Ludwing van Beetoven</td>
-            <td>John Doe</td>
+            <td>#06</td>
+            <td>Antonio Vivaldi</td>
+            <td>
+              <Avatar color="#CCCC8B">RC</Avatar>
+              Rosetta Castro
+            </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
-            <td>Entregue</td>
+            <td>
+              <Badge status="delivered" text="Entregue" />
+            </td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>

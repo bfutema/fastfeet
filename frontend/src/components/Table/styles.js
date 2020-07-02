@@ -62,6 +62,10 @@ export const CustomTable = styled.table`
     background-color: #fff;
   }
 
+  tbody tr:hover {
+    filter: brightness(95%);
+  }
+
   thead tr th {
     padding: 0 16px;
   }
@@ -77,7 +81,7 @@ export const CustomTable = styled.table`
   tbody tr td {
     border-top: 1px solid #eeeeeeff;
     border-bottom: 1px solid #eeeeeeff;
-    padding: 16px;
+    padding: 12px 16px;
   }
 
   tbody tr td svg {
