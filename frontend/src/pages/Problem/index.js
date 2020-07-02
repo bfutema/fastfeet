@@ -9,57 +9,53 @@ export default function Problems() {
       <>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Endereço</th>
+            <th>Encomenda</th>
+            <th>Problema</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in
+              mauris et felis eleifend elementum vel quis lectus…
+            </td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
+            <td>#02</td>
+            <td>Destinatário ausente</td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
+            <td>#03</td>
+            <td>Carga roubada</td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
+            <td>#04</td>
+            <td>Destinatário ausente</td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
+            <td>#05</td>
+            <td>Infelizmente sofri um acidente que danificou a encomenda</td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
           </tr>
           <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
+            <td>#06</td>
+            <td>Destinatário ausente</td>
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
