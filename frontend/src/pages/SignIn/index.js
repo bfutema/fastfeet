@@ -49,7 +49,7 @@ export default function SignIn() {
           />
         </div>
         <button type="submit">
-          {loading ? 'Carregando' : 'Entrar no sistema'}
+          {loading ? 'Carregando . . .' : 'Entrar no sistema'}
           <Ink />
         </button>
       </Form>
