@@ -47,6 +47,12 @@ export const Content = styled.div`
       }
     }
 
+    span {
+      color: #f64c75;
+      font-weight: bold;
+      margin: 0 0 10px;
+    }
+
     button {
       color: #fff;
       border-radius: 4px;
