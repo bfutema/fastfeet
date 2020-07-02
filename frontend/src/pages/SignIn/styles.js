@@ -61,6 +61,7 @@ export const Content = styled.div`
       letter-spacing: 0.8px;
       margin-top: 10px;
       padding: 10px;
+      position: relative;
     }
   }
 `;
