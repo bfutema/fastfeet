@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FiPlus } from 'react-icons/fi';
 
 import { Container, Text } from './styles';
 
-export default function Content({ fontColor, fontSize, fontWeight, text }) {
+export default function Content({
+  fontColor,
+  fontSize,
+  fontWeight,
+  text,
+  children,
+}) {
   return (
     <Container>
-      <FiPlus size={fontSize + 8} color={fontColor} />
+      {children}
       <Text fontColor={fontColor} fontSize={fontSize} fontWeight={fontWeight}>
         {text}
       </Text>
@@ -25,4 +30,5 @@ Content.propTypes = {
   fontSize: PropTypes.number,
   fontWeight: PropTypes.string,
   text: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
 };

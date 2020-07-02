@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Content from './Content';
 
-import { CustomButton, CustomLink } from './styles';
+import { CustomButton, Container } from './styles';
 
 export default function Button({
   color,
@@ -14,6 +14,7 @@ export default function Button({
   text,
   type,
   url,
+  children,
 }) {
   return (
     <>
@@ -27,10 +28,12 @@ export default function Button({
             fontSize={fontSize}
             fontWeight={fontWeight}
             text={text}
-          />
+          >
+            {children}
+          </Content>
         </CustomButton>
       ) : (
-        <CustomLink
+        <Container
           color={color}
           type={`${type === 'submit' ? 'submit' : 'button'}`}
         >
@@ -40,9 +43,11 @@ export default function Button({
               fontSize={fontSize}
               fontWeight={fontWeight}
               text={text}
-            />
+            >
+              {children}
+            </Content>
           </Link>
-        </CustomLink>
+        </Container>
       )}
     </>
   );
@@ -63,4 +68,5 @@ Button.propTypes = {
   text: PropTypes.string.isRequired,
   type: PropTypes.string,
   url: PropTypes.string,
+  children: PropTypes.element.isRequired,
 };

@@ -13,7 +13,7 @@ export const CustomButton = styled.button`
   }
 `;
 
-export const CustomLink = styled.a`
+export const Container = styled.div`
   background-color: ${(props) => props.color};
   border-radius: 4px;
   padding: 8px 16px;
