@@ -12,19 +12,17 @@ export const Avatar = styled.div`
   height: 28px;
   background-color: ${(props) => lighten(0.25, `${props.color}`)};
   border-radius: 50%;
+  font-size: 12px;
   margin-right: 10px;
   vertical-align: middle;
   display: inline-block;
-  padding: 5px;
+  padding: 7px 0;
   text-align: center;
   color: ${(props) => props.color};
 `;
 
 export const Span = styled.span`
   div {
-    /* opacity: ${(props) => (props.visible ? 1 : 0)};
-    visibility: ${(props) => (props.visible ? 'visible' : 'hidden')}; */
-
     opacity: 0;
     visibility: hidden;
 

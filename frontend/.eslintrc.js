@@ -39,6 +39,7 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': 'off',
     'no-nested-ternary': 'off',
     'no-alert': 'off',
+    'no-return-assign': 'off',
   },
   settings: {
     'import/resolver': {

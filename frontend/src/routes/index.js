@@ -17,12 +17,19 @@ export default function Routes() {
       <Route path="/" exact component={SignIn} />
 
       <Route path="/save/order" component={SaveOrder} isPrivate />
+      <Route path="/save/order/:id" component={SaveOrder} isPrivate />
       <Route path="/orders" component={Orders} isPrivate />
 
       <Route path="/save/deliveryman" component={SaveDeliveryMan} isPrivate />
+      <Route
+        path="/save/deliveryman/:id"
+        component={SaveDeliveryMan}
+        isPrivate
+      />
       <Route path="/deliverymans" component={DeliveryMans} isPrivate />
 
       <Route path="/save/recipient" component={SaveRecipient} isPrivate />
+      <Route path="/save/recipient/:id" component={SaveRecipient} isPrivate />
       <Route path="/recipients" component={Recipients} isPrivate />
 
       <Route path="/problems" component={Problems} isPrivate />
