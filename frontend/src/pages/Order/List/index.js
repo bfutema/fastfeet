@@ -88,10 +88,10 @@ export default function Orders() {
                   onMouseLeave={() => handleToggleVisible(index)}
                 >
                   <FiMoreHorizontal size={16} color="#999999" />
-                  <BalloonActions>
+                  <BalloonActions width={140}>
                     <ViewLink link="/save/order" />
                     <EditLink link={`/save/order/${order.id}`} />
-                    <DeleteLink id={order.id} />
+                    <DeleteLink id={order.id} text="Excluir" />
                   </BalloonActions>
                 </Span>
               </td>

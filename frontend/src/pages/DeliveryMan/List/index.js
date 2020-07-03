@@ -77,9 +77,9 @@ export default function DeliveryMans() {
                   onMouseLeave={() => handleToggleVisible(index)}
                 >
                   <FiMoreHorizontal size={16} color="#999999" />
-                  <BalloonActions>
+                  <BalloonActions width={140}>
                     <EditLink link={`/save/deliveryman/${deliveryMan.id}`} />
-                    <DeleteLink id={deliveryMan.id} />
+                    <DeleteLink id={deliveryMan.id} text="Excluir" />
                   </BalloonActions>
                 </Span>
               </td>

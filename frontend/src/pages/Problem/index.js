@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
 import Table from '~/components/Table';
+import BalloonActions, {
+  ViewLink,
+  DeleteLink,
+} from '~/components/BalloonActions';
+
+import api from '~/services/api';
+
+import { Tr, Span } from './styles';
 
 export default function Problems() {
+  const [deliveryProblems, setDeliveryProblems] = useState([]);
+  const spansRef = useRef([]);
+
+  useEffect(() => {
+    async function loadDeliveryProblems() {
+      const response = await api.get('delivery/problems');
+
+      spansRef.current = new Array(response.data);
+
+      setDeliveryProblems(response.data);
+    }
+
+    loadDeliveryProblems();
+  }, []);
+
+  function handleToggleVisible(index) {
+    const { span: currentSpan } = spansRef.current[index];
+
+    if (currentSpan.classList.contains('active')) {
+      currentSpan.classList.remove('active');
+    } else {
+      currentSpan.classList.add('active');
+    }
+  }
+
   return (
     <Table title="Problemas na entrega">
       <>
@@ -15,51 +48,28 @@ export default function Problems() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in
-              mauris et felis eleifend elementum vel quis lectus…
-            </td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#02</td>
-            <td>Destinatário ausente</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#03</td>
-            <td>Carga roubada</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#04</td>
-            <td>Destinatário ausente</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#05</td>
-            <td>Infelizmente sofri um acidente que danificou a encomenda</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#06</td>
-            <td>Destinatário ausente</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
+          {deliveryProblems.map((deliveryProblem, index) => (
+            <Tr key={deliveryProblem.id}>
+              <td>#{deliveryProblem.idStr}</td>
+              <td>{deliveryProblem.description}</td>
+              <td>
+                <Span
+                  ref={(span) => (spansRef.current[index] = { span })}
+                  onMouseEnter={() => handleToggleVisible(index)}
+                  onMouseLeave={() => handleToggleVisible(index)}
+                >
+                  <FiMoreHorizontal size={16} color="#999999" />
+                  <BalloonActions width={200}>
+                    <ViewLink link={`/deliveryProblem/${deliveryProblem.id}`} />
+                    <DeleteLink
+                      id={deliveryProblem.id}
+                      text="Cancelar encomenda"
+                    />
+                  </BalloonActions>
+                </Span>
+              </td>
+            </Tr>
+          ))}
         </tbody>
       </>
     </Table>

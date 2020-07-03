@@ -76,9 +76,9 @@ export default function Recipients() {
                   onMouseLeave={() => handleToggleVisible(index)}
                 >
                   <FiMoreHorizontal size={16} color="#999999" />
-                  <BalloonActions>
+                  <BalloonActions width={140}>
                     <EditLink link={`/save/recipient/${recipient.id}`} />
-                    <DeleteLink id={recipient.id} />
+                    <DeleteLink id={recipient.id} text="Excluir" />
                   </BalloonActions>
                 </Span>
               </td>
