@@ -7,10 +7,38 @@ class RecipientController {
   async index(req, res) {
     const { page = 1, q = '' } = req.query;
 
-    const recipients = await Recipient.findAll({
+    let recipients = await Recipient.findAll({
       where: { name: { [Op.iLike]: `%${q}%` } },
-      limit: 20,
-      offset: (page - 1) * 20,
+      limit: 8,
+      offset: (page - 1) * 8,
+    });
+
+    recipients = recipients.map((recipient) => {
+      const {
+        id,
+        name,
+        street,
+        number,
+        complement,
+        state,
+        city,
+        zip,
+        createdAt,
+        updatedAt,
+      } = recipient;
+      return {
+        id,
+        idStr: String(recipient.id).padStart(2, '00'),
+        name,
+        street,
+        number,
+        complement,
+        state,
+        city,
+        zip,
+        createdAt,
+        updatedAt,
+      };
     });
 
     return res.json(recipients);
