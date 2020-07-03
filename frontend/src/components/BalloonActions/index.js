@@ -6,8 +6,8 @@ import { IoMdEye, IoMdCreate } from 'react-icons/io';
 
 import { Container, Action } from './styles';
 
-export default function BalloonActions({ children }) {
-  return <Container>{children}</Container>;
+export default function BalloonActions({ children, width }) {
+  return <Container width={width}>{children}</Container>;
 }
 
 export function ViewLink({ link }) {
@@ -28,7 +28,7 @@ export function EditLink({ link }) {
   );
 }
 
-export function DeleteLink({ id }) {
+export function DeleteLink({ id, text }) {
   function handleDelete() {
     const confirm = window.confirm(
       'Você deseja realmente excluir este registro ?'
@@ -45,7 +45,7 @@ export function DeleteLink({ id }) {
     <Action color="#DE3B3B">
       <MdDeleteForever color="var(--third-color)" size={16} />
       <button type="button" onClick={handleDelete}>
-        Excluir
+        {text}
       </button>
     </Action>
   );
@@ -53,6 +53,7 @@ export function DeleteLink({ id }) {
 
 BalloonActions.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
+  width: PropTypes.number.isRequired,
 };
 
 ViewLink.propTypes = {
@@ -65,4 +66,5 @@ EditLink.propTypes = {
 
 DeleteLink.propTypes = {
   id: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
 };

@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { lighten } from 'polished';
 
 export const Container = styled.div`
-  width: 140px;
+  width: ${(props) => `${props.width}px`};
 
-  left: calc(50% - 70px);
+  left: calc(50% - ${(props) => `${props.width / 2}px`});
   top: calc(100% + 10px);
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 0px 2px #00000026;
