@@ -33,10 +33,7 @@ export default function Button({
           </Content>
         </CustomButton>
       ) : (
-        <Container
-          color={color}
-          type={`${type === 'submit' ? 'submit' : 'button'}`}
-        >
+        <Container color={color}>
           <Link to={url}>
             <Content
               fontColor={fontColor}
