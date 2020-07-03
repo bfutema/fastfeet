@@ -63,7 +63,7 @@ export const CustomTable = styled.table`
   }
 
   tbody tr:hover {
-    filter: brightness(95%);
+    background-color: #dddddd33;
   }
 
   thead tr th {
