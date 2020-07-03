@@ -15,7 +15,7 @@ class OrderController {
 
     let orders = await Order.findAll({
       where: { product: { [Op.iLike]: `%${q}%` } },
-      order: ['id'],
+      order: [['id', 'DESC']],
       attributes: ['id', 'product', 'cancelled_at', 'start_date', 'end_date'],
       limit: 8,
       offset: (page - 1) * 8,
