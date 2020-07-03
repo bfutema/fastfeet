@@ -1,11 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
 import Table from '~/components/Table';
+import BalloonActions, {
+  EditLink,
+  DeleteLink,
+} from '~/components/BalloonActions';
 
-import { Avatar } from './styles';
+import api from '~/services/api';
+
+import { Tr, Avatar, Span } from './styles';
 
 export default function DeliveryMans() {
+  const [deliveryMans, setDeliveryMans] = useState([]);
+  const spansRef = useRef([]);
+
+  useEffect(() => {
+    async function loadDeliveryMans() {
+      const response = await api.get('deliverymans');
+
+      spansRef.current = new Array(response.data);
+
+      setDeliveryMans(response.data);
+    }
+
+    loadDeliveryMans();
+  }, []);
+
+  function handleToggleVisible(index) {
+    const { span: currentSpan } = spansRef.current[index];
+
+    if (currentSpan.classList.contains('active')) {
+      currentSpan.classList.remove('active');
+    } else {
+      currentSpan.classList.add('active');
+    }
+  }
+
   return (
     <Table
       title="Gerenciando entregadores"
@@ -31,72 +62,29 @@ export default function DeliveryMans() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>
-              <Avatar color="#A28FD0">JD</Avatar>
-            </td>
-            <td>John Doe</td>
-            <td>example@rocketseat.com</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#02</td>
-            <td>
-              <Avatar color="#CB946C">GA</Avatar>
-            </td>
-            <td>Gaspar Antunes</td>
-            <td>example@rocketseat.com</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#03</td>
-            <td>
-              <Avatar color="#83CEC9">DJ</Avatar>
-            </td>
-            <td>Dai Jang</td>
-            <td>example@rocketseat.com</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#04</td>
-            <td>
-              <Avatar color="#CC7584">TH</Avatar>
-            </td>
-            <td>Tom Hanson</td>
-            <td>example@rocketseat.com</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#05</td>
-            <td>
-              <Avatar color="#A8D080">MF</Avatar>
-            </td>
-            <td>Marc Franklin</td>
-            <td>example@rocketseat.com</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#06</td>
-            <td>
-              <Avatar color="#CCCC8B">RC</Avatar>
-            </td>
-            <td>Rosetta Castro</td>
-            <td>example@rocketseat.com</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
+          {deliveryMans.map((deliveryMan, index) => (
+            <Tr key={deliveryMan.id}>
+              <td>#{deliveryMan.idStr}</td>
+              <td>
+                <Avatar color="#A28FD0">{deliveryMan.initialLetters}</Avatar>
+              </td>
+              <td>{deliveryMan.name}</td>
+              <td>{deliveryMan.email}</td>
+              <td>
+                <Span
+                  ref={(span) => (spansRef.current[index] = { span })}
+                  onMouseEnter={() => handleToggleVisible(index)}
+                  onMouseLeave={() => handleToggleVisible(index)}
+                >
+                  <FiMoreHorizontal size={16} color="#999999" />
+                  <BalloonActions>
+                    <EditLink link={`/save/deliveryman/${deliveryMan.id}`} />
+                    <DeleteLink id={deliveryMan.id} />
+                  </BalloonActions>
+                </Span>
+              </td>
+            </Tr>
+          ))}
         </tbody>
       </>
     </Table>
