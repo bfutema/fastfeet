@@ -38,6 +38,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
     'no-nested-ternary': 'off',
+    'no-alert': 'off',
   },
   settings: {
     'import/resolver': {

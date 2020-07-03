@@ -19,3 +19,22 @@ export const Avatar = styled.div`
   text-align: center;
   color: ${(props) => props.color};
 `;
+
+export const Span = styled.span`
+  div {
+    /* opacity: ${(props) => (props.visible ? 1 : 0)};
+    visibility: ${(props) => (props.visible ? 'visible' : 'hidden')}; */
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: all 300ms;
+
+    z-index: 10;
+  }
+
+  &.active div {
+    opacity: 1;
+    visibility: visible;
+  }
+`;
