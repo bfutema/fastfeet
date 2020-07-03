@@ -13,16 +13,40 @@ class DeliveryProblemController {
   async list(req, res) {
     const { page = 1 } = req.query;
 
-    const orders = await DeliveryProblem.findAll({
+    let orders = await DeliveryProblem.findAll({
       attributes: ['id', 'description', 'created_at', 'updated_at'],
-      limit: 20,
-      offset: (page - 1) * 20,
+      limit: 8,
+      offset: (page - 1) * 8,
       include: [
         {
           model: Order,
           as: 'order',
         },
       ],
+    });
+
+    orders = orders.map((orderWithProblem) => {
+      const { id, description, createdAt, updatedAt, order } = orderWithProblem;
+
+      return {
+        id,
+        idStr: String(orderWithProblem.id).padStart(2, '00'),
+        description,
+        createdAt,
+        updatedAt,
+        order: {
+          id: order.id,
+          product: order.product,
+          cancelled_at: order.cancelled_at,
+          start_date: order.start_date,
+          end_date: order.end_date,
+          createdAt: order.createdAt,
+          updatedAt: order.updatedAt,
+          recipient_id: order.recipient_id,
+          deliveryman_id: order.deliveryman_id,
+          signature_id: order.signature_id,
+        },
+      };
     });
 
     return res.json(orders);
