@@ -6,9 +6,9 @@ import AvatarInput from './AvatarInput';
 
 import { Container, FormGroup } from './styles';
 
-export default function NewDeliveryMan() {
+export default function EditDeliveryMan() {
   return (
-    <Card title="Cadastro de entregadores" backButtonLinkUrl="/deliverymans">
+    <Card title="Edição de entregadores" backButtonLinkUrl="/deliverymans">
       <Container>
         <AvatarInput />
         <FormGroup>

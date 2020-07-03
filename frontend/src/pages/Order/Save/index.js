@@ -61,7 +61,7 @@ export default function NewOrder() {
     setOrderProductName(value);
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
 
     dispatch(

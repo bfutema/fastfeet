@@ -4,7 +4,7 @@ import Card from '~/components/Card';
 
 import { Container, FormGroup, FormGroupGrid } from './styles';
 
-export default function NewOrder() {
+export default function EditOrder() {
   return (
     <Card title="Edição de encomendas" backButtonLinkUrl="/orders">
       <Container>
