@@ -6,7 +6,7 @@ import Order from '../models/Order';
 class DeliveryController {
   async index(req, res) {
     const { deliveryman_id } = req.params;
-    const { delivered } = req.query;
+    const { delivered, page = 1 } = req.query;
 
     if (delivered) {
       const delivers = await Order.findAll({
@@ -16,7 +16,27 @@ class DeliveryController {
           cancelled_at: null,
           end_date: { [Op.not]: null },
         },
+        limit: 8,
+        offset: (page - 1) * 8,
       });
+
+      // delivers = delivers.map((deliveryMan) => {
+      //   const split = deliveryMan.name.split(' ');
+      //   const initialLetters = `${split[0].slice(0, 1)}${split[
+      //     split.length - 1
+      //   ].slice(0, 1)}`.toUpperCase();
+
+      //   const { id, name, email, avatar } = deliveryMan;
+
+      //   return {
+      //     id,
+      //     idStr: String(deliveryMan.id).padStart(2, '00'),
+      //     name,
+      //     initialLetters,
+      //     email,
+      //     avatar,
+      //   };
+      // });
 
       return res.json(delivers);
     }
@@ -24,6 +44,8 @@ class DeliveryController {
     const delivers = await Order.findAll({
       order: [['created_at', 'DESC']],
       where: { deliveryman_id, cancelled_at: null, end_date: null },
+      limit: 8,
+      offset: (page - 1) * 8,
     });
 
     return res.json(delivers);
@@ -43,11 +65,11 @@ class DeliveryController {
 
     const hour = getHours(new Date());
 
-    // if (!(hour >= 8 && hour < 18)) {
-    //   return res.status(401).json({
-    //     error: 'You cannot pick up an order outside the allowed hours!',
-    //   });
-    // }
+    if (!(hour >= 8 && hour < 18)) {
+      return res.status(401).json({
+        error: 'You cannot pick up an order outside the allowed hours!',
+      });
+    }
 
     const initialHourOfDay = subHours(
       setHours(setMinutes(setSeconds(new Date(), 0), 0), 0),
