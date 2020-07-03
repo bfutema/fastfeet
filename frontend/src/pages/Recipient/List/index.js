@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
 import Table from '~/components/Table';
+import BalloonActions, {
+  EditLink,
+  DeleteLink,
+} from '~/components/BalloonActions';
+
+import api from '~/services/api';
+
+import { Tr, Span } from './styles';
 
 export default function Recipients() {
+  const [recipients, setRecipients] = useState([]);
+  const spansRef = useRef([]);
+
+  useEffect(() => {
+    async function loadRecipients() {
+      const response = await api.get('recipients');
+
+      spansRef.current = new Array(response.data);
+
+      setRecipients(response.data);
+    }
+
+    loadRecipients();
+  }, []);
+
+  function handleToggleVisible(index) {
+    const { span: currentSpan } = spansRef.current[index];
+
+    if (currentSpan.classList.contains('active')) {
+      currentSpan.classList.remove('active');
+    } else {
+      currentSpan.classList.add('active');
+    }
+  }
+
   return (
     <Table
       title="Gerenciando destinatários"
@@ -28,54 +61,29 @@ export default function Recipients() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
-          <tr>
-            <td>#01</td>
-            <td>John Doe</td>
-            <td>Rua Beethoven, 1729, Diadema - São Paulo</td>
-            <td>
-              <FiMoreHorizontal size={16} color="#999999" />
-            </td>
-          </tr>
+          {recipients.map((recipient, index) => (
+            <Tr key={recipient.id}>
+              <td>#{recipient.idStr}</td>
+              <td>{recipient.name}</td>
+              <td>
+                {recipient.street}, {recipient.number}, {recipient.city} -{' '}
+                {recipient.state}
+              </td>
+              <td>
+                <Span
+                  ref={(span) => (spansRef.current[index] = { span })}
+                  onMouseEnter={() => handleToggleVisible(index)}
+                  onMouseLeave={() => handleToggleVisible(index)}
+                >
+                  <FiMoreHorizontal size={16} color="#999999" />
+                  <BalloonActions>
+                    <EditLink link={`/save/recipient/${recipient.id}`} />
+                    <DeleteLink id={recipient.id} />
+                  </BalloonActions>
+                </Span>
+              </td>
+            </Tr>
+          ))}
         </tbody>
       </>
     </Table>
