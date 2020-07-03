@@ -2,9 +2,14 @@ import React from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
 import Table from '~/components/Table';
+import BalloonActions, {
+  ViewLink,
+  EditLink,
+  DeleteLink,
+} from '~/components/BalloonActions';
 import Badge from './Badge';
 
-import { Avatar } from './styles';
+import { Tr, Avatar } from './styles';
 
 export default function Orders() {
   return (
@@ -34,7 +39,7 @@ export default function Orders() {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <Tr>
             <td>#01</td>
             <td>Ludwing van Beetoven</td>
             <td>
@@ -47,10 +52,17 @@ export default function Orders() {
               <Badge status="delivered" text="Entregue" />
             </td>
             <td>
-              <FiMoreHorizontal size={16} color="#999999" />
+              <span>
+                <FiMoreHorizontal size={16} color="#999999" />
+                <BalloonActions>
+                  <ViewLink />
+                  <EditLink />
+                  <DeleteLink />
+                </BalloonActions>
+              </span>
             </td>
-          </tr>
-          <tr>
+          </Tr>
+          <Tr>
             <td>#02</td>
             <td>Wolfgang Amadeus</td>
             <td>
@@ -65,8 +77,8 @@ export default function Orders() {
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
-          </tr>
-          <tr>
+          </Tr>
+          <Tr>
             <td>#03</td>
             <td>Johann Sebastian Bach</td>
             <td>
@@ -81,8 +93,8 @@ export default function Orders() {
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
-          </tr>
-          <tr>
+          </Tr>
+          <Tr>
             <td>#04</td>
             <td>Frédéric Chopin</td>
             <td>
@@ -97,8 +109,8 @@ export default function Orders() {
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
-          </tr>
-          <tr>
+          </Tr>
+          <Tr>
             <td>#05</td>
             <td>Piotr Ilitch Tchaikovski</td>
             <td>
@@ -113,8 +125,8 @@ export default function Orders() {
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
-          </tr>
-          <tr>
+          </Tr>
+          <Tr>
             <td>#06</td>
             <td>Antonio Vivaldi</td>
             <td>
@@ -129,7 +141,7 @@ export default function Orders() {
             <td>
               <FiMoreHorizontal size={16} color="#999999" />
             </td>
-          </tr>
+          </Tr>
         </tbody>
       </>
     </Table>

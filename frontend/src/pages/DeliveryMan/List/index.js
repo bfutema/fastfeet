@@ -15,7 +15,7 @@ export default function DeliveryMans() {
       buttonFontSize={12}
       buttonFontColor="#fff"
       buttonType="link"
-      linkUrl="/save/deliverymans"
+      linkUrl="/save/deliveryman"
       backButton
       backButtonText="Voltar"
       actions

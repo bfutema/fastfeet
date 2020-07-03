@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import { lighten } from 'polished';
 
+export const Tr = styled.tr`
+  td:last-child span {
+    position: relative;
+  }
+`;
+
 export const Avatar = styled.div`
   width: 28px;
   height: 28px;

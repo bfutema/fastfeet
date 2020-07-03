@@ -13,7 +13,7 @@ export default function Recipients() {
       buttonFontSize={12}
       buttonFontColor="#fff"
       buttonType="link"
-      linkUrl="/save/deliverymans"
+      linkUrl="/save/recipient"
       backButton
       backButtonText="Voltar"
       actions
