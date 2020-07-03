@@ -43,11 +43,11 @@ class DeliveryController {
 
     const hour = getHours(new Date());
 
-    if (!(hour >= 8 && hour < 18)) {
-      return res.status(401).json({
-        error: 'You cannot pick up an order outside the allowed hours!',
-      });
-    }
+    // if (!(hour >= 8 && hour < 18)) {
+    //   return res.status(401).json({
+    //     error: 'You cannot pick up an order outside the allowed hours!',
+    //   });
+    // }
 
     const initialHourOfDay = subHours(
       setHours(setMinutes(setSeconds(new Date(), 0), 0), 0),

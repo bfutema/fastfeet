@@ -13,11 +13,12 @@ class OrderController {
   async index(req, res) {
     const { page = 1, q = '' } = req.query;
 
-    const orders = await Order.findAll({
+    let orders = await Order.findAll({
       where: { product: { [Op.iLike]: `%${q}%` } },
+      order: ['id'],
       attributes: ['id', 'product', 'cancelled_at', 'start_date', 'end_date'],
-      limit: 20,
-      offset: (page - 1) * 20,
+      limit: 8,
+      offset: (page - 1) * 8,
       include: [
         {
           model: Recipient,
@@ -44,6 +45,70 @@ class OrderController {
           attributes: ['id', 'name', 'path', 'url'],
         },
       ],
+    });
+
+    orders = orders.map((order) => {
+      let status = {};
+
+      const split = order.deliveryman.name.split(' ');
+      const initialLetters = `${split[0].slice(0, 1)}${split[
+        split.length - 1
+      ].slice(0, 1)}`.toUpperCase();
+
+      if (order.start_date && order.end_date) {
+        status = {
+          type: 'delivered',
+          text: 'Entregue',
+        };
+      }
+
+      if (!order.start_date && !order.end_date) {
+        status = {
+          type: 'pending',
+          text: 'Pendente',
+        };
+      }
+
+      if (order.start_date && !order.end_date) {
+        status = {
+          type: 'withdrawal',
+          text: 'Retirada',
+        };
+      }
+
+      if (order.cancelled_at) {
+        status = {
+          type: 'cancelled',
+          text: 'Cancelada',
+        };
+      }
+
+      const {
+        id,
+        product,
+        cancelled_at,
+        start_date,
+        end_date,
+        recipient,
+        deliveryman,
+      } = order;
+
+      return {
+        id,
+        idStr: String(order.id).padStart(2, '00'),
+        product,
+        cancelled_at,
+        start_date,
+        end_date,
+        recipient,
+        deliveryman: {
+          id: deliveryman.id,
+          name: deliveryman.name,
+          email: deliveryman.email,
+          initialLetters,
+        },
+        status,
+      };
     });
 
     return res.json(orders);
@@ -92,7 +157,7 @@ class OrderController {
       product,
       start_date,
       end_date,
-      calcelled_at,
+      cancelled_at,
     } = await order.update(req.body);
 
     return res.json({
@@ -100,7 +165,7 @@ class OrderController {
       product,
       start_date,
       end_date,
-      calcelled_at,
+      cancelled_at,
     });
   }
 
