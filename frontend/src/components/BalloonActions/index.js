@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { MdDeleteForever } from 'react-icons/md';
 import { IoMdEye, IoMdCreate } from 'react-icons/io';
 
@@ -9,33 +10,59 @@ export default function BalloonActions({ children }) {
   return <Container>{children}</Container>;
 }
 
-export function ViewLink() {
+export function ViewLink({ link }) {
   return (
-    <Action>
+    <Action color="#7d40e7">
       <IoMdEye color="var(--primary-color)" size={16} />
-      <span>Visualizar</span>
+      <Link to={link}>Visualizar</Link>
     </Action>
   );
 }
 
-export function EditLink() {
+export function EditLink({ link }) {
   return (
-    <Action>
+    <Action color="#4D85EE">
       <IoMdCreate color="var(--second-color)" size={16} />
-      <span>Editar</span>
+      <Link to={link}>Editar</Link>
     </Action>
   );
 }
 
-export function DeleteLink() {
+export function DeleteLink({ id }) {
+  function handleDelete() {
+    const confirm = window.confirm(
+      'Você deseja realmente excluir este registro ?'
+    );
+
+    if (confirm) {
+      console.tron.log(`Removendo o id: ${id}`);
+    } else {
+      console.tron.log(`Cancelando a remoção do id: ${id}`);
+    }
+  }
+
   return (
-    <Action>
+    <Action color="#DE3B3B">
       <MdDeleteForever color="var(--third-color)" size={16} />
-      <span>Excluir</span>
+      <button type="button" onClick={handleDelete}>
+        Excluir
+      </button>
     </Action>
   );
 }
 
 BalloonActions.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
+};
+
+ViewLink.propTypes = {
+  link: PropTypes.string.isRequired,
+};
+
+EditLink.propTypes = {
+  link: PropTypes.string.isRequired,
+};
+
+DeleteLink.propTypes = {
+  id: PropTypes.number.isRequired,
 };

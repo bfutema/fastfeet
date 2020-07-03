@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { lighten } from 'polished';
 
 export const Container = styled.div`
   width: 140px;
@@ -26,7 +27,7 @@ export const Container = styled.div`
     width: 10px;
     height: 10px;
     background: #fff;
-    transform: rotate(45deg); /* Prefixes... */
+    transform: rotate(45deg);
     top: -5px;
     left: calc(50% - 10px);
     box-shadow: -2px -2px 5px -2px rgba(0, 0, 0, 0.5);
@@ -43,5 +44,19 @@ export const Action = styled.div`
 
   & + & {
     border-top: 1px solid #eeeeee;
+  }
+
+  &:hover {
+    filter: brightness(90%);
+    cursor: pointer;
+  }
+
+  a,
+  button {
+    color: ${(props) => props.color};
+
+    &:hover {
+      color: ${(props) => lighten(0.3, `${props.color}`)};
+    }
   }
 `;

@@ -87,5 +87,6 @@ export const CustomTable = styled.table`
   tbody tr td svg {
     cursor: pointer;
     margin-right: 10px;
+    z-index: 0;
   }
 `;
