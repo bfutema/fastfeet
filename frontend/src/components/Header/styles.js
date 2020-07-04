@@ -55,7 +55,7 @@ export const Content = styled.div`
       color: #666;
     }
 
-    form {
+    div {
       margin-top: 5px;
 
       button {
