@@ -53,9 +53,6 @@ export const FormGroupGrid = styled.div`
   gap: 25px;
 
   div {
-    display: flex;
-    flex-direction: column;
-
     label {
       font-size: 14px;
       font-weight: bold;

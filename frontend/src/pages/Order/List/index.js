@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+
+import {
+  listOrdersRequest,
+  deleteOrderRequest,
+} from '~/store/modules/order/actions';
 
 import Table from '~/components/Table';
 import BalloonActions, {
@@ -17,7 +23,11 @@ export default function Orders() {
   const [orders, setOrders] = useState([]);
   const spansRef = useRef([]);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    dispatch(listOrdersRequest(1, ''));
+
     async function loadOrders() {
       const response = await api.get('orders');
 
@@ -27,7 +37,7 @@ export default function Orders() {
     }
 
     loadOrders();
-  }, []);
+  }, [dispatch]);
 
   function handleToggleVisible(index) {
     const { span: currentSpan } = spansRef.current[index];
@@ -91,7 +101,11 @@ export default function Orders() {
                   <BalloonActions width={140}>
                     <ViewLink link="/save/order" />
                     <EditLink link={`/save/order/${order.id}`} />
-                    <DeleteLink id={order.id} text="Excluir" />
+                    <DeleteLink
+                      id={order.id}
+                      text="Excluir"
+                      func={deleteOrderRequest}
+                    />
                   </BalloonActions>
                 </Span>
               </td>
