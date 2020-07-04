@@ -9,6 +9,7 @@ class RecipientController {
 
     let recipients = await Recipient.findAll({
       where: { name: { [Op.iLike]: `%${q}%` } },
+      order: [['id', 'DESC']],
       limit: 8,
       offset: (page - 1) * 8,
     });
