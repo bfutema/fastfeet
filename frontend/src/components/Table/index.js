@@ -19,6 +19,8 @@ export default function Table({
   buttonFontColor,
   children,
   actions,
+  search,
+  setSearch,
 }) {
   return (
     <Container>
@@ -29,6 +31,8 @@ export default function Table({
             <Search
               width={searchWidth}
               placeholder={`Buscar por ${searchPlaceholder}`}
+              search={search}
+              setSearch={setSearch}
             />
             <Button
               color={buttonColor}
@@ -72,4 +76,6 @@ Table.propTypes = {
   buttonFontColor: PropTypes.string,
   children: PropTypes.element.isRequired,
   actions: PropTypes.bool,
+  search: PropTypes.string.isRequired,
+  setSearch: PropTypes.func.isRequired,
 };
