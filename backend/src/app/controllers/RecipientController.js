@@ -5,13 +5,50 @@ import Recipient from '../models/Recipient';
 
 class RecipientController {
   async index(req, res) {
-    const { page = 1, q = '' } = req.query;
+    const { page = 1, q = '', pagination } = req.query;
+
+    if (pagination) {
+      let recipients = await Recipient.findAll({
+        where: { name: { [Op.iLike]: `%${q}%` } },
+        order: [['id', 'DESC']],
+        limit: 8,
+        offset: (page - 1) * 8,
+      });
+
+      recipients = recipients.map((recipient) => {
+        const {
+          id,
+          name,
+          street,
+          number,
+          complement,
+          state,
+          city,
+          zip,
+          createdAt,
+          updatedAt,
+        } = recipient;
+        return {
+          id,
+          idStr: String(recipient.id).padStart(2, '00'),
+          name,
+          street,
+          number,
+          complement,
+          state,
+          city,
+          zip,
+          createdAt,
+          updatedAt,
+        };
+      });
+
+      return res.json(recipients);
+    }
 
     let recipients = await Recipient.findAll({
       where: { name: { [Op.iLike]: `%${q}%` } },
       order: [['id', 'DESC']],
-      limit: 8,
-      offset: (page - 1) * 8,
     });
 
     recipients = recipients.map((recipient) => {

@@ -6,13 +6,47 @@ import File from '../models/File';
 
 class DeliveryManController {
   async index(req, res) {
-    const { page = 1, q = '' } = req.query;
+    const { page = 1, q = '', pagination } = req.query;
+
+    if (pagination) {
+      let deliveryMans = await DeliveryMan.findAll({
+        where: { name: { [Op.iLike]: `%${q}%` } },
+        attributes: ['id', 'name', 'email'],
+        limit: 8,
+        offset: (page - 1) * 8,
+        include: [
+          {
+            model: File,
+            as: 'avatar',
+            attributes: ['id', 'name', 'path', 'url'],
+          },
+        ],
+      });
+
+      deliveryMans = deliveryMans.map((deliveryMan) => {
+        const split = deliveryMan.name.split(' ');
+        const initialLetters = `${split[0].slice(0, 1)}${split[
+          split.length - 1
+        ].slice(0, 1)}`.toUpperCase();
+
+        const { id, name, email, avatar } = deliveryMan;
+
+        return {
+          id,
+          idStr: String(deliveryMan.id).padStart(2, '00'),
+          name,
+          initialLetters,
+          email,
+          avatar,
+        };
+      });
+
+      return res.json(deliveryMans);
+    }
 
     let deliveryMans = await DeliveryMan.findAll({
       where: { name: { [Op.iLike]: `%${q}%` } },
       attributes: ['id', 'name', 'email'],
-      limit: 8,
-      offset: (page - 1) * 8,
       include: [
         {
           model: File,
