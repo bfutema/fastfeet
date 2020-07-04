@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
 
-export const Container = styled.keyboardAvoidingView.attrs({
+export const Container = styled.KeyboardAvoidingView.attrs({
   enabled: Platform.OS === 'ios',
   behavior: 'padding',
 })`
