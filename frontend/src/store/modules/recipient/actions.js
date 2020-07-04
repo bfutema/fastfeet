@@ -55,26 +55,6 @@ export function updateRecipientFailure() {
   };
 }
 
-export function listRecipientsRequest(page, q) {
-  return {
-    type: '@recipient/LIST_RECIPIENTS_REQUEST',
-    payload: { page, q },
-  };
-}
-
-export function listRecipientsSuccess(recipients) {
-  return {
-    type: '@recipient/LIST_RECIPIENTS_SUCCESS',
-    payload: { recipients },
-  };
-}
-
-export function listRecipientsFailure() {
-  return {
-    type: '@recipient/LIST_RECIPIENTS_FAILURE',
-  };
-}
-
 export function deleteRecipientRequest(id) {
   return {
     type: '@recipient/DELETE_RECIPIENT_REQUEST',

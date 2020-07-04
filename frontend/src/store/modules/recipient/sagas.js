@@ -9,8 +9,6 @@ import {
   createRecipientFailure,
   updateRecipientSuccess,
   updateRecipientFailure,
-  listRecipientsSuccess,
-  listRecipientsFailure,
   deleteRecipientSuccess,
   deleteRecipientFailure,
 } from './actions';
@@ -73,23 +71,6 @@ export function* updateRecipient({ payload }) {
   }
 }
 
-export function* listRecipients() {
-  try {
-    yield delay(1000);
-
-    const response = yield call(api.get, 'recipients');
-
-    const { data: recipients } = response;
-
-    yield put(listRecipientsSuccess(recipients));
-
-    history.push('/recipients');
-  } catch (err) {
-    toast.error('Ops..! Ocorreu um erro ao buscar os destinatários.');
-    yield put(listRecipientsFailure());
-  }
-}
-
 export function* deleteRecipient({ payload }) {
   try {
     const { id } = payload;
@@ -112,6 +93,5 @@ export function* deleteRecipient({ payload }) {
 export default all([
   takeLatest('@recipient/CREATE_RECIPIENT_REQUEST', newRecipient),
   takeLatest('@recipient/UPDATE_RECIPIENT_REQUEST', updateRecipient),
-  takeLatest('@recipient/LIST_RECIPIENTS_REQUEST', listRecipients),
   takeLatest('@recipient/DELETE_RECIPIENT_REQUEST', deleteRecipient),
 ]);

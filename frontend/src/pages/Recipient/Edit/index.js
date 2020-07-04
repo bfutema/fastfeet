@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { updateRecipientRequest } from '~/store/modules/recipient/actions';
@@ -7,6 +7,7 @@ import { updateRecipientRequest } from '~/store/modules/recipient/actions';
 import Card from '~/components/Card';
 
 import viaCepApi from '~/services/viaCepApi';
+import api from '~/services/api';
 
 import {
   Container,
@@ -18,19 +19,25 @@ import {
 export default function EditRecipient() {
   const { id } = useParams();
 
-  const recipient = useSelector((state) =>
-    state.recipient.recipients.find((item) => item.id === Number(id))
-  );
-
   const [address, setAddress] = useState({
-    name: recipient ? recipient.name : '',
-    street: recipient ? recipient.street : '',
-    number: recipient ? recipient.number : '',
-    complement: recipient ? recipient.complement : '',
-    city: recipient ? recipient.city : '',
-    state: recipient ? recipient.state : '',
-    zip: recipient ? recipient.zip : '',
+    name: '',
+    street: '',
+    number: '',
+    complement: '',
+    city: '',
+    state: '',
+    zip: '',
   });
+
+  useEffect(() => {
+    async function loadRecipient() {
+      const response = await api.get(`recipients/${id}`);
+
+      setAddress(response.data[0]);
+    }
+
+    loadRecipient();
+  }, [id]);
 
   const streetRef = useRef('');
   const cityRef = useRef('');

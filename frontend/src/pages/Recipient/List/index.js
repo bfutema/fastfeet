@@ -1,11 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
 
-import {
-  listRecipientsRequest,
-  deleteRecipientRequest,
-} from '~/store/modules/recipient/actions';
+import { deleteRecipientRequest } from '~/store/modules/recipient/actions';
 
 import Table from '~/components/Table';
 import BalloonActions, {
@@ -21,13 +17,9 @@ export default function Recipients() {
   const [recipients, setRecipients] = useState([]);
   const spansRef = useRef([]);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(listRecipientsRequest(1, ''));
-
     async function loadRecipients() {
-      const response = await api.get('recipients');
+      const response = await api.get('recipients?pagination=true');
 
       spansRef.current = new Array(response.data);
 
@@ -35,7 +27,7 @@ export default function Recipients() {
     }
 
     loadRecipients();
-  }, [dispatch]);
+  }, []);
 
   function handleToggleVisible(index) {
     const { span: currentSpan } = spansRef.current[index];
@@ -87,7 +79,10 @@ export default function Recipients() {
                 >
                   <FiMoreHorizontal size={16} color="#999999" />
                   <BalloonActions width={140}>
-                    <EditLink link={`/save/recipient/${recipient.id}`} />
+                    <EditLink
+                      link={`/save/recipient/${recipient.id}`}
+                      data={recipient}
+                    />
                     <DeleteLink
                       id={recipient.id}
                       text="Excluir"

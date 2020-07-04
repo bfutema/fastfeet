@@ -17,7 +17,7 @@ export default function DeliveryMans() {
 
   useEffect(() => {
     async function loadDeliveryMans() {
-      const response = await api.get('deliverymans');
+      const response = await api.get('deliverymans?pagination=true');
 
       spansRef.current = new Array(response.data);
 

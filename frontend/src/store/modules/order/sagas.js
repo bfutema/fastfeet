@@ -9,8 +9,6 @@ import {
   createOrderFailure,
   updateOrderSuccess,
   updateOrderFailure,
-  listOrdersSuccess,
-  listOrdersFailure,
   deleteOrderSuccess,
   deleteOrderFailure,
 } from './actions';
@@ -74,23 +72,6 @@ export function* updateOrder({ payload }) {
   }
 }
 
-export function* listOrders() {
-  try {
-    yield delay(1000);
-
-    const response = yield call(api.get, 'orders');
-
-    const { data: order } = response;
-
-    yield put(listOrdersSuccess(order));
-
-    history.push('/orders');
-  } catch (err) {
-    toast.error('Ops..! Ocorreu um erro ao buscar as encomandas.');
-    yield put(listOrdersFailure());
-  }
-}
-
 export function* deleteOrder({ payload }) {
   try {
     const { id } = payload;
@@ -113,6 +94,5 @@ export function* deleteOrder({ payload }) {
 export default all([
   takeLatest('@order/CREATE_ORDER_REQUEST', newOrder),
   takeLatest('@order/UPDATE_ORDER_REQUEST', updateOrder),
-  takeLatest('@order/LIST_ORDERS_REQUEST', listOrders),
   takeLatest('@order/DELETE_ORDER_REQUEST', deleteOrder),
 ]);

@@ -37,20 +37,6 @@ export default function orders(state = INITIAL_STATE, action) {
         draft.loading = false;
         break;
       }
-      case '@order/LIST_ORDERS_REQUEST': {
-        draft.loading = true;
-        break;
-      }
-      case '@order/LIST_ORDERS_SUCCESS': {
-        draft.loading = false;
-        draft.orders = action.payload.orders;
-        break;
-      }
-      case '@order/LIST_ORDERS_FAILURE': {
-        draft.orders = [];
-        draft.loading = false;
-        break;
-      }
       case '@order/DELETE_ORDERS_REQUEST': {
         draft.loading = true;
         break;

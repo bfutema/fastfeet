@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import AsyncSelect from 'react-select/async';
 
@@ -13,22 +13,28 @@ import { Container, FormGroup, FormGroupGrid } from './styles';
 
 export default function EditOrder() {
   const { id } = useParams();
-
-  const order = useSelector((state) =>
-    state.order.orders.find((item) => item.id === Number(id))
-  );
-
-  const [recipientSelected, setRecipientSelected] = useState(
-    order.recipient.id
-  );
-
-  const [deliveryManSelected, setDeliveryManSelected] = useState(
-    order.deliveryman.id
-  );
-
-  const [orderProductName, setOrderProductName] = useState(order.product);
-
   const dispatch = useDispatch();
+
+  const [orderProductName, setOrderProductName] = useState('');
+
+  const [recipientSelected, setRecipientSelected] = useState(0);
+  const [recipientNameSelected, setRecipientNameSelected] = useState('');
+  const [deliveryManSelected, setDeliveryManSelected] = useState(0);
+  const [deliveryManNameSelected, setDeliveryManNameSelected] = useState('');
+
+  useEffect(() => {
+    async function loadRecipient() {
+      const response = await api.get(`orders/${id}`);
+
+      setRecipientSelected(response.data[0].recipient.id);
+      setRecipientNameSelected(response.data[0].recipient.name);
+      setDeliveryManSelected(response.data[0].deliveryman.id);
+      setDeliveryManNameSelected(response.data[0].deliveryman.name);
+      setOrderProductName(response.data[0].product);
+    }
+
+    loadRecipient();
+  }, [id]);
 
   async function loadRecipientsOptions(inputValue, callback) {
     const response = await api.get('recipients');
@@ -56,16 +62,18 @@ export default function EditOrder() {
     }, 1000);
   }
 
-  function handleRecipientChange(newValue) {
-    const { value } = newValue;
+  function handleRecipientChange(e) {
+    const { value, label } = e;
 
     setRecipientSelected(Number(value));
+    setRecipientNameSelected(label);
   }
 
-  function handleDeliveryManChange(newValue) {
-    const { value } = newValue;
+  function handleDeliveryManChange(e) {
+    const { value, label } = e;
 
     setDeliveryManSelected(Number(value));
+    setDeliveryManNameSelected(label);
   }
 
   function handleOrderProductNameChange(e) {
@@ -97,11 +105,13 @@ export default function EditOrder() {
               <AsyncSelect
                 id="recipient_id"
                 name="recipient_id"
-                defaultValue={order.recipient.id}
-                defaultInputValue={order.recipient.name}
                 cacheOptions
                 loadOptions={loadRecipientsOptions}
                 defaultOptions
+                value={{
+                  value: recipientSelected,
+                  label: recipientNameSelected,
+                }}
                 onChange={handleRecipientChange}
               />
             </div>
@@ -110,11 +120,13 @@ export default function EditOrder() {
               <AsyncSelect
                 id="deliveryman_id"
                 name="deliveryman_id"
-                defaultValue={order.deliveryman.id}
-                defaultInputValue={order.deliveryman.name}
                 cacheOptions
                 loadOptions={loadDeliveryMansOptions}
                 defaultOptions
+                value={{
+                  value: deliveryManSelected,
+                  label: deliveryManNameSelected,
+                }}
                 onChange={handleDeliveryManChange}
               />
             </div>
@@ -123,8 +135,8 @@ export default function EditOrder() {
             <div>
               <label htmlFor="name">Nome do produto</label>
               <input
-                name="name"
                 id="name"
+                name="name"
                 placeholder="Digite o nome do produto"
                 onChange={handleOrderProductNameChange}
                 value={orderProductName}
