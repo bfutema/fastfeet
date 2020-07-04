@@ -14,6 +14,7 @@ class DeliveryProblemController {
     const { page = 1 } = req.query;
 
     let orders = await DeliveryProblem.findAll({
+      order: [['id', 'DESC']],
       attributes: ['id', 'description', 'created_at', 'updated_at'],
       limit: 8,
       offset: (page - 1) * 8,
