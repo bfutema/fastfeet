@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { format, parseISO } from 'date-fns';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
 import { deleteOrderRequest } from '~/store/modules/order/actions';
@@ -20,7 +21,10 @@ import { Tr, Avatar, Span, ModalContent, Dates } from './styles';
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState('');
-  const [isOpenModal, setIsOpenModal] = useState(true);
+
+  const [modalSelected, setModalSelected] = useState({});
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const spansRef = useRef([]);
 
   useEffect(() => {
@@ -55,10 +59,43 @@ export default function Orders() {
     }
   }
 
-  function handleToggleModal() {
-    // eslint-disable-next-line no-console
-    console.log('Situação modal: ', isOpenModal);
-    setIsOpenModal(!isOpenModal);
+  function cep(value) {
+    value = value.replace(/\D/g, '');
+
+    if (value.length > 8) value = value.slice(0, -1);
+
+    value = value.replace(/(\d{5})(\d)/, '$1-$2');
+
+    return value;
+  }
+
+  function handleToggleModal(e, id) {
+    if (e.target.classList.contains('xModal')) setIsOpenModal(!isOpenModal);
+    if (
+      e.target.classList.contains('modal') &&
+      !e.target.classList.contains('xModal')
+    ) {
+      const order = orders.find((item) => item.id === id);
+
+      const zip = cep(String(order.recipient.zip));
+      const start_date = order.start_date
+        ? format(parseISO(order.start_date), 'dd/MM/yyyy')
+        : 'Pendente';
+      const end_date = order.end_date
+        ? format(parseISO(order.end_date), 'dd/MM/yyyy')
+        : 'Não entregue';
+
+      setModalSelected({
+        street: order.recipient.street,
+        number: order.recipient.number,
+        city: order.recipient.city,
+        state: order.recipient.state,
+        zip,
+        start_date,
+        end_date,
+      });
+      setIsOpenModal(!isOpenModal);
+    }
   }
 
   return (
@@ -67,17 +104,21 @@ export default function Orders() {
         <ModalContent>
           <div>
             <strong>Informações da encomenda</strong>
-            <span>Rua Bethoven, 1729</span>
-            <span>Diadema - SP</span>
-            <span>09960-580</span>
+            <span>
+              {modalSelected.street}, {modalSelected.number}
+            </span>
+            <span>
+              {modalSelected.city} - {modalSelected.state}
+            </span>
+            <span>{modalSelected.zip}</span>
           </div>
           <div>
             <strong>Datas</strong>
             <Dates>
               <strong>Retirada: </strong>
-              <span>25/01/2020</span>
+              <span>{modalSelected.start_date}</span>
               <strong>Entrega</strong>
-              <span>25/01/2020</span>
+              <span>{modalSelected.end_date}</span>
             </Dates>
           </div>
           <div>
@@ -140,7 +181,9 @@ export default function Orders() {
                   >
                     <FiMoreHorizontal size={16} color="#999999" />
                     <BalloonActions width={140}>
-                      <ViewLink toggle={handleToggleModal} />
+                      <ViewLink
+                        toggle={(e) => handleToggleModal(e, order.id)}
+                      />
                       <EditLink link={`/save/order/${order.id}`} />
                       <DeleteLink
                         id={order.id}

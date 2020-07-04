@@ -38,6 +38,8 @@ export const Span = styled.span`
 `;
 
 export const ModalContent = styled.div`
+  z-index: 777777778;
+
   min-width: 380px;
 
   span {

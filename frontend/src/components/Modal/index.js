@@ -5,7 +5,7 @@ import { Container, CardModal } from './styles';
 
 export default function Modal({ isOpen, toggle, children }) {
   return (
-    <Container className={isOpen ? 'active' : ''} onClick={toggle}>
+    <Container className={isOpen ? 'xModal active' : 'xModal'} onClick={toggle}>
       <CardModal>{children}</CardModal>
     </Container>
   );

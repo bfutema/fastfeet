@@ -62,6 +62,8 @@ Table.defaultProps = {
   buttonFontSize: 0,
   buttonFontColor: '',
   actions: false,
+  search: '',
+  setSearch: null,
 };
 
 Table.propTypes = {
@@ -76,6 +78,6 @@ Table.propTypes = {
   buttonFontColor: PropTypes.string,
   children: PropTypes.element.isRequired,
   actions: PropTypes.bool,
-  search: PropTypes.string.isRequired,
-  setSearch: PropTypes.func.isRequired,
+  search: PropTypes.string,
+  setSearch: PropTypes.func,
 };

@@ -17,7 +17,7 @@ export function ViewLink({ toggle }) {
       <IoMdEye color="var(--primary-color)" size={16} />
       {/* <Link to={link}>Visualizar</Link> */}
       <ViewModal>
-        <button type="button" onClick={toggle}>
+        <button className="modal" type="button" onClick={toggle}>
           Visualizar
         </button>
       </ViewModal>
@@ -60,8 +60,12 @@ BalloonActions.propTypes = {
   width: PropTypes.number.isRequired,
 };
 
+ViewLink.defaultProps = {
+  toggle: null,
+};
+
 ViewLink.propTypes = {
-  toggle: PropTypes.func.isRequired,
+  toggle: PropTypes.func,
 };
 
 EditLink.propTypes = {
