@@ -60,3 +60,5 @@ export const Action = styled.div`
     }
   }
 `;
+
+export const ViewModal = styled.div``;

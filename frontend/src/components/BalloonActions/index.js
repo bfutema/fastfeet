@@ -5,17 +5,22 @@ import { Link } from 'react-router-dom';
 import { MdDeleteForever } from 'react-icons/md';
 import { IoMdEye, IoMdCreate } from 'react-icons/io';
 
-import { Container, Action } from './styles';
+import { Container, Action, ViewModal } from './styles';
 
 export default function BalloonActions({ children, width }) {
   return <Container width={width}>{children}</Container>;
 }
 
-export function ViewLink({ link }) {
+export function ViewLink({ toggle }) {
   return (
     <Action color="#7d40e7">
       <IoMdEye color="var(--primary-color)" size={16} />
-      <Link to={link}>Visualizar</Link>
+      {/* <Link to={link}>Visualizar</Link> */}
+      <ViewModal>
+        <button type="button" onClick={toggle}>
+          Visualizar
+        </button>
+      </ViewModal>
     </Action>
   );
 }
@@ -56,7 +61,7 @@ BalloonActions.propTypes = {
 };
 
 ViewLink.propTypes = {
-  link: PropTypes.string.isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 
 EditLink.propTypes = {
