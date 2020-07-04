@@ -36,3 +36,54 @@ export const Span = styled.span`
     visibility: visible;
   }
 `;
+
+export const ModalContent = styled.div`
+  min-width: 380px;
+
+  span {
+    color: #666;
+  }
+
+  > div {
+    padding-bottom: 16px;
+    max-width: 420px;
+
+    display: flex;
+    flex-direction: column;
+
+    & + div {
+      padding-top: 16px;
+    }
+
+    & + div {
+      border-top: 1px solid #eee;
+    }
+
+    strong,
+    span {
+      margin: 4px 0;
+    }
+
+    img {
+      width: 100%;
+      max-height: 80px;
+
+      margin-top: 16px;
+
+      object-fit: contain;
+    }
+  }
+`;
+
+export const Dates = styled.div`
+  width: 40%;
+  margin-top: 8px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  strong,
+  span {
+    margin: 4px 0;
+  }
+`;
