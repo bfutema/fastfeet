@@ -3,11 +3,15 @@ import { reactotronRedux } from 'reactotron-redux';
 import reactotronSaga from 'reactotron-redux-saga';
 
 if (__DEV__) {
-  const tron = Reactotron.configure({ host: '192.168.0.2' })
+  const tron = Reactotron.configure()
     .useReactNative()
     .use(reactotronRedux())
     .use(reactotronSaga())
-    .connect();
+    .connect({
+      enabled: true,
+      host: '192.168.0.2',
+      port: 9090,
+    });
 
   tron.clear();
 
