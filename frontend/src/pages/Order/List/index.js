@@ -17,7 +17,18 @@ import { Tr, Avatar, Span } from './styles';
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const [search, setSearch] = useState('');
   const spansRef = useRef([]);
+
+  useEffect(() => {
+    async function searchOrders(q) {
+      const response = await api.get(`orders?pagination=true&q=${q}`);
+
+      setOrders(response.data);
+    }
+
+    searchOrders(search);
+  }, [search]);
 
   useEffect(() => {
     async function loadOrders() {
@@ -54,6 +65,8 @@ export default function Orders() {
       backButton
       backButtonText="Voltar"
       actions
+      search={search}
+      setSearch={setSearch}
     >
       <>
         <thead>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
+import { deleteDeliveryManRequest } from '~/store/modules/deliveryman/actions';
+
 import Table from '~/components/Table';
 import BalloonActions, {
   EditLink,
@@ -13,7 +15,18 @@ import { Tr, Avatar, Span } from './styles';
 
 export default function DeliveryMans() {
   const [deliveryMans, setDeliveryMans] = useState([]);
+  const [search, setSearch] = useState('');
   const spansRef = useRef([]);
+
+  useEffect(() => {
+    async function searchDeliveryMans(q) {
+      const response = await api.get(`deliverymans?pagination=true&q=${q}`);
+
+      setDeliveryMans(response.data);
+    }
+
+    searchDeliveryMans(search);
+  }, [search]);
 
   useEffect(() => {
     async function loadDeliveryMans() {
@@ -50,6 +63,8 @@ export default function DeliveryMans() {
       backButton
       backButtonText="Voltar"
       actions
+      search={search}
+      setSearch={setSearch}
     >
       <>
         <thead>
@@ -79,7 +94,11 @@ export default function DeliveryMans() {
                   <FiMoreHorizontal size={16} color="#999999" />
                   <BalloonActions width={140}>
                     <EditLink link={`/save/deliveryman/${deliveryMan.id}`} />
-                    <DeleteLink id={deliveryMan.id} text="Excluir" />
+                    <DeleteLink
+                      id={deliveryMan.id}
+                      text="Excluir"
+                      func={deleteDeliveryManRequest}
+                    />
                   </BalloonActions>
                 </Span>
               </td>

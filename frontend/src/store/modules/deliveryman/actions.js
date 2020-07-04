@@ -1,77 +1,57 @@
-export function createOrderRequest(recipientId, deliveryManId, name) {
+export function createDeliveryManRequest(name, email, avatarId) {
   return {
     type: '@deliveryman/CREATE_DELIVERYMAN_REQUEST',
-    payload: { recipientId, deliveryManId, name },
+    payload: { name, email, avatarId },
   };
 }
 
-export function createOrderSuccess(deliveryman) {
+export function createDeliveryManSuccess(deliveryman) {
   return {
     type: '@deliveryman/CREATE_DELIVERYMAN_SUCCESS',
     payload: { deliveryman },
   };
 }
 
-export function createOrderFailure() {
+export function createDeliveryManFailure() {
   return {
     type: '@deliveryman/CREATE_DELIVERYMAN_FAILURE',
   };
 }
 
-export function updateOrderRequest(id, recipientId, deliveryManId, product) {
+export function updateDeliveryManRequest(id, name, email, avatarId) {
   return {
     type: '@deliveryman/UPDATE_DELIVERYMAN_REQUEST',
-    payload: { id, recipientId, deliveryManId, product },
+    payload: { id, name, email, avatarId },
   };
 }
 
-export function updateOrderSuccess(deliveryman) {
+export function updateDeliveryManSuccess(deliveryman) {
   return {
     type: '@deliveryman/UPDATE_DELIVERYMAN_SUCCESS',
     payload: { deliveryman },
   };
 }
 
-export function updateOrderFailure() {
+export function updateDeliveryManFailure() {
   return {
     type: '@deliveryman/UPDATE_DELIVERYMAN_FAILURE',
   };
 }
 
-export function listOrdersRequest(page, q) {
-  return {
-    type: '@deliveryman/LIST_DELIVERYMANS_REQUEST',
-    payload: { page, q },
-  };
-}
-
-export function listOrdersSuccess(deliverymans) {
-  return {
-    type: '@deliveryman/LIST_DELIVERYMANS_SUCCESS',
-    payload: { deliverymans },
-  };
-}
-
-export function listOrdersFailure() {
-  return {
-    type: '@deliveryman/LIST_DELIVERYMANS_FAILURE',
-  };
-}
-
-export function deleteOrderRequest(id) {
+export function deleteDeliveryManRequest(id) {
   return {
     type: '@deliveryman/DELETE_DELIVERYMAN_REQUEST',
     payload: { id },
   };
 }
 
-export function deleteOrderSuccess() {
+export function deleteDeliveryManSuccess() {
   return {
     type: '@deliveryman/DELETE_DELIVERYMAN_SUCCESS',
   };
 }
 
-export function deleteOrderFailure() {
+export function deleteDeliveryManFailure() {
   return {
     type: '@deliveryman/DELETE_DELIVERYMAN_FAILURE',
   };

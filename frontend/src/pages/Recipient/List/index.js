@@ -15,7 +15,18 @@ import { Tr, Span } from './styles';
 
 export default function Recipients() {
   const [recipients, setRecipients] = useState([]);
+  const [search, setSearch] = useState('');
   const spansRef = useRef([]);
+
+  useEffect(() => {
+    async function searchRecipients(q) {
+      const response = await api.get(`recipients?pagination=true&q=${q}`);
+
+      setRecipients(response.data);
+    }
+
+    searchRecipients(search);
+  }, [search]);
 
   useEffect(() => {
     async function loadRecipients() {
@@ -52,6 +63,8 @@ export default function Recipients() {
       backButton
       backButtonText="Voltar"
       actions
+      search={search}
+      setSearch={setSearch}
     >
       <>
         <thead>

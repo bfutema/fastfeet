@@ -91,6 +91,27 @@ export function* deleteOrder({ payload }) {
   }
 }
 
+// export function* searchOrder({ payload }) {
+//   try {
+//     const { search } = payload;
+
+//     yield delay(1000);
+
+//     const response = yield call(api.get, `orders?q=${search}`);
+
+//     const { data: orders } = response;
+
+//     yield put(searchOrderSuccess(orders));
+
+//     toast.success('Encomendas filtradas com sucesso!');
+
+//     history.push('/orders');
+//   } catch (err) {
+//     toast.error('Ops..! Ocorreu um erro ao buscar as encomendas.');
+//     yield put(createOrderFailure());
+//   }
+// }
+
 export default all([
   takeLatest('@order/CREATE_ORDER_REQUEST', newOrder),
   takeLatest('@order/UPDATE_ORDER_REQUEST', updateOrder),
