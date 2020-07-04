@@ -5,51 +5,40 @@ import Recipient from '../models/Recipient';
 
 class RecipientController {
   async index(req, res) {
+    const { id: recipientId } = req.params;
     const { page = 1, q = '', pagination } = req.query;
 
-    if (pagination) {
-      let recipients = await Recipient.findAll({
+    let query = {};
+
+    if (pagination === 'true') {
+      if (recipientId) {
+        query = {
+          where: { id: recipientId, name: { [Op.iLike]: `%${q}%` } },
+          order: [['id', 'DESC']],
+          limit: 8,
+          offset: (page - 1) * 8,
+        };
+      } else {
+        query = {
+          where: { name: { [Op.iLike]: `%${q}%` } },
+          order: [['id', 'DESC']],
+          limit: 8,
+          offset: (page - 1) * 8,
+        };
+      }
+    } else if (recipientId) {
+      query = {
+        where: { id: recipientId, name: { [Op.iLike]: `%${q}%` } },
+        order: [['id', 'DESC']],
+      };
+    } else {
+      query = {
         where: { name: { [Op.iLike]: `%${q}%` } },
         order: [['id', 'DESC']],
-        limit: 8,
-        offset: (page - 1) * 8,
-      });
-
-      recipients = recipients.map((recipient) => {
-        const {
-          id,
-          name,
-          street,
-          number,
-          complement,
-          state,
-          city,
-          zip,
-          createdAt,
-          updatedAt,
-        } = recipient;
-        return {
-          id,
-          idStr: String(recipient.id).padStart(2, '00'),
-          name,
-          street,
-          number,
-          complement,
-          state,
-          city,
-          zip,
-          createdAt,
-          updatedAt,
-        };
-      });
-
-      return res.json(recipients);
+      };
     }
 
-    let recipients = await Recipient.findAll({
-      where: { name: { [Op.iLike]: `%${q}%` } },
-      order: [['id', 'DESC']],
-    });
+    let recipients = await Recipient.findAll(query);
 
     recipients = recipients.map((recipient) => {
       const {

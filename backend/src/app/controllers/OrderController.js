@@ -11,41 +11,160 @@ import Queue from '../../lib/Queue';
 
 class OrderController {
   async index(req, res) {
-    const { page = 1, q = '' } = req.query;
+    const { id: orderId } = req.params;
+    const { page = 1, q = '', pagination } = req.query;
 
-    let orders = await Order.findAll({
-      where: { product: { [Op.iLike]: `%${q}%` } },
-      order: [['id', 'DESC']],
-      attributes: ['id', 'product', 'cancelled_at', 'start_date', 'end_date'],
-      limit: 8,
-      offset: (page - 1) * 8,
-      include: [
-        {
-          model: Recipient,
-          as: 'recipient',
+    let query = {};
+
+    if (pagination === 'true') {
+      if (orderId) {
+        query = {
+          where: { id: orderId, product: { [Op.iLike]: `%${q}%` } },
+          order: [['id', 'DESC']],
           attributes: [
             'id',
-            'name',
-            'street',
-            'number',
-            'complement',
-            'state',
-            'city',
-            'zip',
+            'product',
+            'cancelled_at',
+            'start_date',
+            'end_date',
           ],
-        },
-        {
-          model: DeliveryMan,
-          as: 'deliveryman',
-          attributes: ['id', 'name', 'email'],
-        },
-        {
-          model: File,
-          as: 'signature',
-          attributes: ['id', 'name', 'path', 'url'],
-        },
-      ],
-    });
+          limit: 8,
+          offset: (page - 1) * 8,
+          include: [
+            {
+              model: Recipient,
+              as: 'recipient',
+              attributes: [
+                'id',
+                'name',
+                'street',
+                'number',
+                'complement',
+                'state',
+                'city',
+                'zip',
+              ],
+            },
+            {
+              model: DeliveryMan,
+              as: 'deliveryman',
+              attributes: ['id', 'name', 'email'],
+            },
+            {
+              model: File,
+              as: 'signature',
+              attributes: ['id', 'name', 'path', 'url'],
+            },
+          ],
+        };
+      } else {
+        query = {
+          where: { product: { [Op.iLike]: `%${q}%` } },
+          order: [['id', 'DESC']],
+          attributes: [
+            'id',
+            'product',
+            'cancelled_at',
+            'start_date',
+            'end_date',
+          ],
+          limit: 8,
+          offset: (page - 1) * 8,
+          include: [
+            {
+              model: Recipient,
+              as: 'recipient',
+              attributes: [
+                'id',
+                'name',
+                'street',
+                'number',
+                'complement',
+                'state',
+                'city',
+                'zip',
+              ],
+            },
+            {
+              model: DeliveryMan,
+              as: 'deliveryman',
+              attributes: ['id', 'name', 'email'],
+            },
+            {
+              model: File,
+              as: 'signature',
+              attributes: ['id', 'name', 'path', 'url'],
+            },
+          ],
+        };
+      }
+    } else if (orderId) {
+      query = {
+        where: { id: orderId, product: { [Op.iLike]: `%${q}%` } },
+        order: [['id', 'DESC']],
+        attributes: ['id', 'product', 'cancelled_at', 'start_date', 'end_date'],
+        include: [
+          {
+            model: Recipient,
+            as: 'recipient',
+            attributes: [
+              'id',
+              'name',
+              'street',
+              'number',
+              'complement',
+              'state',
+              'city',
+              'zip',
+            ],
+          },
+          {
+            model: DeliveryMan,
+            as: 'deliveryman',
+            attributes: ['id', 'name', 'email'],
+          },
+          {
+            model: File,
+            as: 'signature',
+            attributes: ['id', 'name', 'path', 'url'],
+          },
+        ],
+      };
+    } else {
+      query = {
+        where: { product: { [Op.iLike]: `%${q}%` } },
+        order: [['id', 'DESC']],
+        attributes: ['id', 'product', 'cancelled_at', 'start_date', 'end_date'],
+        include: [
+          {
+            model: Recipient,
+            as: 'recipient',
+            attributes: [
+              'id',
+              'name',
+              'street',
+              'number',
+              'complement',
+              'state',
+              'city',
+              'zip',
+            ],
+          },
+          {
+            model: DeliveryMan,
+            as: 'deliveryman',
+            attributes: ['id', 'name', 'email'],
+          },
+          {
+            model: File,
+            as: 'signature',
+            attributes: ['id', 'name', 'path', 'url'],
+          },
+        ],
+      };
+    }
+
+    let orders = await Order.findAll(query);
 
     orders = orders.map((order) => {
       let status = {};
