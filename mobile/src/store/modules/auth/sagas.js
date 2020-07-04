@@ -7,20 +7,17 @@ import { signInSuccess, signFailure } from './actions';
 
 export function* signIn({ payload }) {
   try {
-    const { email, password } = payload;
+    const { deliveryManId } = payload;
 
-    yield delay(1000);
+    const response = yield call(api.post, 'access', { deliveryManId });
 
-    const response = yield call(api.post, 'sessions', {
-      email,
-      password,
-    });
-
-    const { token, user } = response.data;
+    const { token, deliveryman } = response.data;
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(signInSuccess(token, user));
+    yield delay(1000);
+
+    yield put(signInSuccess(token, deliveryman));
 
     Alert.alert('Sucesso!', 'Bem vindo ao Fast Feet :)');
 
