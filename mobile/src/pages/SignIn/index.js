@@ -8,6 +8,8 @@ import Background from '~/components/Background';
 import { Container, Form, FormInput, SubmitButton } from './styles';
 
 export default function SignIn() {
+  function handleSubmit() {}
+
   return (
     <Background>
       <Container>
@@ -17,14 +19,12 @@ export default function SignIn() {
           <FormInput
             keyboardType="numeric"
             placeholder="Informe seu ID de cadastro"
+            returnKeyType="send"
+            onSubmitEditing={handleSubmit}
           />
         </Form>
 
-        <SubmitButton onPress={() => {}}>Entrar no sistema</SubmitButton>
-        {/* <Input
-          style={{ marginTop: 30 }}
-          placeholder="Informe seu ID de cadastro"
-        /> */}
+        <SubmitButton onPress={handleSubmit}>Entrar no sistema</SubmitButton>
       </Container>
     </Background>
   );
