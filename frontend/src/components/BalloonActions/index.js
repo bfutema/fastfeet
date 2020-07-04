@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdDeleteForever } from 'react-icons/md';
 import { IoMdEye, IoMdCreate } from 'react-icons/io';
@@ -28,17 +29,15 @@ export function EditLink({ link }) {
   );
 }
 
-export function DeleteLink({ id, text }) {
+export function DeleteLink({ id, text, func }) {
+  const dispatch = useDispatch();
+
   function handleDelete() {
     const confirm = window.confirm(
       'Você deseja realmente excluir este registro ?'
     );
 
-    if (confirm) {
-      console.tron.log(`Removendo o id: ${id}`);
-    } else {
-      console.tron.log(`Cancelando a remoção do id: ${id}`);
-    }
+    if (confirm) dispatch(func(id));
   }
 
   return (
@@ -67,4 +66,5 @@ EditLink.propTypes = {
 DeleteLink.propTypes = {
   id: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
+  func: PropTypes.func.isRequired,
 };

@@ -25,3 +25,71 @@ export function createRecipientFailure() {
     type: '@recipient/CREATE_RECIPIENT_FAILURE',
   };
 }
+
+export function updateRecipientRequest(
+  id,
+  name,
+  street,
+  number,
+  complement,
+  city,
+  state,
+  zip
+) {
+  return {
+    type: '@recipient/UPDATE_RECIPIENT_REQUEST',
+    payload: { id, name, street, number, complement, city, state, zip },
+  };
+}
+
+export function updateRecipientSuccess(recipient) {
+  return {
+    type: '@recipient/UPDATE_RECIPIENT_SUCCESS',
+    payload: { recipient },
+  };
+}
+
+export function updateRecipientFailure() {
+  return {
+    type: '@recipient/UPDATE_RECIPIENT_FAILURE',
+  };
+}
+
+export function listRecipientsRequest(page, q) {
+  return {
+    type: '@recipient/LIST_RECIPIENTS_REQUEST',
+    payload: { page, q },
+  };
+}
+
+export function listRecipientsSuccess(recipients) {
+  return {
+    type: '@recipient/LIST_RECIPIENTS_SUCCESS',
+    payload: { recipients },
+  };
+}
+
+export function listRecipientsFailure() {
+  return {
+    type: '@recipient/LIST_RECIPIENTS_FAILURE',
+  };
+}
+
+export function deleteRecipientRequest(id) {
+  return {
+    type: '@recipient/DELETE_RECIPIENT_REQUEST',
+    payload: { id },
+  };
+}
+
+export function deleteRecipientSuccess() {
+  return {
+    type: '@recipient/DELETE_RECIPIENT_SUCCESS',
+  };
+}
+
+export function deleteRecipientFailure() {
+  return {
+    type: '@recipient/DELETE_RECIPIENT_FAILURE',
+  };
+}

@@ -4,7 +4,16 @@ import { toast } from 'react-toastify';
 import history from '~/services/history';
 import api from '~/services/api';
 
-import { createRecipientSuccess, createRecipientFailure } from './actions';
+import {
+  createRecipientSuccess,
+  createRecipientFailure,
+  updateRecipientSuccess,
+  updateRecipientFailure,
+  listRecipientsSuccess,
+  listRecipientsFailure,
+  deleteRecipientSuccess,
+  deleteRecipientFailure,
+} from './actions';
 
 export function* newRecipient({ payload }) {
   try {
@@ -35,6 +44,74 @@ export function* newRecipient({ payload }) {
   }
 }
 
+export function* updateRecipient({ payload }) {
+  try {
+    const { id, name, street, number, complement, state, city, zip } = payload;
+
+    yield delay(1000);
+
+    const response = yield call(api.put, `recipients/${id}`, {
+      name,
+      street,
+      number,
+      complement,
+      state,
+      city,
+      zip,
+    });
+
+    const { data: recipient } = response;
+
+    yield put(updateRecipientSuccess(recipient));
+
+    toast.success('Destinatário atualizado com sucesso!');
+
+    history.push('/recipients');
+  } catch (err) {
+    toast.error('Ops..! Ocorreu um erro ao atualizar o destinatário.');
+    yield put(updateRecipientFailure());
+  }
+}
+
+export function* listRecipients() {
+  try {
+    yield delay(1000);
+
+    const response = yield call(api.get, 'recipients');
+
+    const { data: recipients } = response;
+
+    yield put(listRecipientsSuccess(recipients));
+
+    history.push('/recipients');
+  } catch (err) {
+    toast.error('Ops..! Ocorreu um erro ao buscar os destinatários.');
+    yield put(listRecipientsFailure());
+  }
+}
+
+export function* deleteRecipient({ payload }) {
+  try {
+    const { id } = payload;
+
+    yield delay(1000);
+
+    yield call(api.delete, `recipients/${id}`);
+
+    yield put(deleteRecipientSuccess());
+
+    toast.success('Destinatário deletado com sucesso!');
+
+    history.push('/recipients');
+  } catch (err) {
+    toast.error('Ops..! Ocorreu um erro ao deletar o destinatário.');
+    yield put(deleteRecipientFailure());
+  }
+}
+
 export default all([
   takeLatest('@recipient/CREATE_RECIPIENT_REQUEST', newRecipient),
+  takeLatest('@recipient/UPDATE_RECIPIENT_REQUEST', updateRecipient),
+  takeLatest('@recipient/LIST_RECIPIENTS_REQUEST', listRecipients),
+  takeLatest('@recipient/DELETE_RECIPIENT_REQUEST', deleteRecipient),
 ]);

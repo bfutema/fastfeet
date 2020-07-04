@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+
+import {
+  listRecipientsRequest,
+  deleteRecipientRequest,
+} from '~/store/modules/recipient/actions';
 
 import Table from '~/components/Table';
 import BalloonActions, {
@@ -15,7 +21,11 @@ export default function Recipients() {
   const [recipients, setRecipients] = useState([]);
   const spansRef = useRef([]);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    dispatch(listRecipientsRequest(1, ''));
+
     async function loadRecipients() {
       const response = await api.get('recipients');
 
@@ -25,7 +35,7 @@ export default function Recipients() {
     }
 
     loadRecipients();
-  }, []);
+  }, [dispatch]);
 
   function handleToggleVisible(index) {
     const { span: currentSpan } = spansRef.current[index];
@@ -78,7 +88,11 @@ export default function Recipients() {
                   <FiMoreHorizontal size={16} color="#999999" />
                   <BalloonActions width={140}>
                     <EditLink link={`/save/recipient/${recipient.id}`} />
-                    <DeleteLink id={recipient.id} text="Excluir" />
+                    <DeleteLink
+                      id={recipient.id}
+                      text="Excluir"
+                      func={deleteRecipientRequest}
+                    />
                   </BalloonActions>
                 </Span>
               </td>
