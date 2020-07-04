@@ -56,3 +56,22 @@ export function deleteOrderFailure() {
     type: '@order/DELETE_ORDER_FAILURE',
   };
 }
+
+export function cancelOrderRequest(problemId) {
+  return {
+    type: '@order/CANCEL_ORDER_REQUEST',
+    payload: { problemId },
+  };
+}
+
+export function cancelOrderSuccess() {
+  return {
+    type: '@order/CANCEL_ORDER_SUCCESS',
+  };
+}
+
+export function cancelOrderFailure() {
+  return {
+    type: '@order/CANCEL_ORDER_FAILURE',
+  };
+}

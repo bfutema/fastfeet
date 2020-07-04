@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
+import { cancelOrderRequest } from '~/store/modules/order/actions';
+
 import Table from '~/components/Table';
 import BalloonActions, {
   ViewLink,
@@ -64,6 +66,7 @@ export default function Problems() {
                     <DeleteLink
                       id={deliveryProblem.id}
                       text="Cancelar encomenda"
+                      func={cancelOrderRequest}
                     />
                   </BalloonActions>
                 </Span>

@@ -11,6 +11,8 @@ import {
   updateOrderFailure,
   deleteOrderSuccess,
   deleteOrderFailure,
+  cancelOrderSuccess,
+  cancelOrderFailure,
 } from './actions';
 
 export function* newOrder({ payload }) {
@@ -82,38 +84,37 @@ export function* deleteOrder({ payload }) {
 
     yield put(deleteOrderSuccess());
 
+    toast.success('Encomenda deletada com sucesso!');
+
+    history.push('/orders');
+  } catch (err) {
+    toast.error('Ops..! Ocorreu um erro ao deletar a encomenda.');
+    yield put(deleteOrderFailure());
+  }
+}
+
+export function* cancelOrder({ payload }) {
+  try {
+    const { problemId } = payload;
+
+    yield delay(1000);
+
+    yield call(api.delete, `problem/${problemId}/cancel-delivery`);
+
+    yield put(cancelOrderSuccess());
+
     toast.success('Encomenda cancelada com sucesso!');
 
     history.push('/orders');
   } catch (err) {
     toast.error('Ops..! Ocorreu um erro ao cancelar a encomenda.');
-    yield put(deleteOrderFailure());
+    yield put(cancelOrderFailure());
   }
 }
-
-// export function* searchOrder({ payload }) {
-//   try {
-//     const { search } = payload;
-
-//     yield delay(1000);
-
-//     const response = yield call(api.get, `orders?q=${search}`);
-
-//     const { data: orders } = response;
-
-//     yield put(searchOrderSuccess(orders));
-
-//     toast.success('Encomendas filtradas com sucesso!');
-
-//     history.push('/orders');
-//   } catch (err) {
-//     toast.error('Ops..! Ocorreu um erro ao buscar as encomendas.');
-//     yield put(createOrderFailure());
-//   }
-// }
 
 export default all([
   takeLatest('@order/CREATE_ORDER_REQUEST', newOrder),
   takeLatest('@order/UPDATE_ORDER_REQUEST', updateOrder),
   takeLatest('@order/DELETE_ORDER_REQUEST', deleteOrder),
+  takeLatest('@order/CANCEL_ORDER_REQUEST', cancelOrder),
 ]);

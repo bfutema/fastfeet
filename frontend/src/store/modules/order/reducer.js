@@ -51,6 +51,19 @@ export default function orders(state = INITIAL_STATE, action) {
         draft.loading = false;
         break;
       }
+      case '@order/CANCEL_ORDER_REQUEST': {
+        draft.loading = true;
+        break;
+      }
+      case '@order/CANCEL_ORDER_SUCCESS': {
+        draft.loading = false;
+        break;
+      }
+      case '@order/CANCEL_ORDER_FAILURE': {
+        draft.orders = [];
+        draft.loading = false;
+        break;
+      }
       default:
     }
   });
