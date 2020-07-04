@@ -35,6 +35,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'comma-dangle': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'object-curly-newline': 'off',
   },
   settings: {
     'import/resolver': {
