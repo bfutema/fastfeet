@@ -75,7 +75,7 @@ export const Pendings = styled.Text`
 `;
 
 export const Delivereds = styled.Text`
-  color: #999999;
+  color: ${(props) => (props.selected ? '#7D40E7' : '#999999')};
   font-size: 14px;
   font-weight: bold;
 `;

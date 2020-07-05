@@ -39,6 +39,7 @@ export default function Dashboard() {
   );
 
   const [orders, setOrders] = useState([]);
+  const [hasFilter, setHasFilter] = useState(false);
 
   useEffect(() => {
     async function loadOrders() {
@@ -51,6 +52,28 @@ export default function Dashboard() {
 
     loadOrders();
   }, [deliveryManId]);
+
+  useEffect(() => {
+    async function loadOrders() {
+      const response = await api.get(
+        `deliverymans/${deliveryManId}/deliveries${
+          hasFilter ? '?delivered=true' : ''
+        }`
+      );
+
+      setOrders(response.data);
+    }
+
+    loadOrders();
+  }, [deliveryManId, hasFilter]);
+
+  function handleFilter(delivered) {
+    if (delivered) {
+      setHasFilter(true);
+    } else {
+      setHasFilter(false);
+    }
+  }
 
   function handleLogout() {
     dispatch(signOut());
@@ -81,11 +104,11 @@ export default function Dashboard() {
       <ListHeader>
         <Title>Entregas</Title>
         <Actions>
-          <TouchableOpacity>
-            <Pendings selected>Pendentes</Pendings>
+          <TouchableOpacity onPress={() => handleFilter(false)}>
+            <Pendings selected={!hasFilter}>Pendentes</Pendings>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Delivereds>Entregues</Delivereds>
+          <TouchableOpacity onPress={() => handleFilter(true)}>
+            <Delivereds selected={!!hasFilter}>Entregues</Delivereds>
           </TouchableOpacity>
         </Actions>
       </ListHeader>
