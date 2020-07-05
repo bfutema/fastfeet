@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { signOut } from '~/store/modules/auth/actions';
 
 import api from '~/services/api';
@@ -75,7 +75,7 @@ export default function Dashboard() {
           <Username>{deliveryManName}</Username>
         </User>
         <TouchableOpacity onPress={handleLogout}>
-          <Icon name="input" size={26} color="#E74040" />
+          <Icon name="login-variant" size={26} color="#E74040" />
         </TouchableOpacity>
       </Welcome>
       <ListHeader>

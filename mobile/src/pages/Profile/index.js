@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { parseISO, format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import { useSelector, useDispatch } from 'react-redux';
 // import { TouchableOpacity } from 'react-native';
 
@@ -25,6 +27,14 @@ export default function Profile() {
     (state) => state.auth.deliveryMan.initialLetters
   );
   const avatar = useSelector((state) => state.auth.deliveryMan.avatar.url);
+
+  const dateParsed = useMemo(
+    () =>
+      format(parseISO(createdAt), 'dd/MM/yyyy', {
+        locale: pt,
+      }),
+    [createdAt]
+  );
 
   function handleLogout() {
     dispatch(signOut());
@@ -53,7 +63,7 @@ export default function Profile() {
       </FormGroup>
       <FormGroup>
         <Label>Data de cadastro</Label>
-        <Text>{createdAt}</Text>
+        <Text>{dateParsed}</Text>
       </FormGroup>
       <LogoutButton onPress={handleLogout}>Logout</LogoutButton>
     </Container>

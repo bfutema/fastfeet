@@ -8,18 +8,18 @@ export const Container = styled.View`
 `;
 
 export const Steps = styled.View`
-  padding: 22px;
+  padding: 22px 10px;
   flex-direction: row;
   justify-content: space-between;
 `;
 
 export const Line = styled.View`
   background-color: #7d40e7;
-  width: 200px;
+  width: 220px;
   height: 1px;
   position: absolute;
-  top: 72px;
-  left: 50px;
+  top: 64px;
+  left: 42px;
   margin: 0 auto;
 `;
 

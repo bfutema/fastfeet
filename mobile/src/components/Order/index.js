@@ -37,7 +37,7 @@ export default function Order({ data }) {
   return (
     <Container>
       <TitleArea>
-        <Icon name="truck" size={22} color="#7D40E7" />
+        <Icon name="truck" size={20} color="#7D40E7" />
         <Title>Encomenda {data.id}</Title>
       </TitleArea>
       <Line />
