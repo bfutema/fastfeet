@@ -84,7 +84,7 @@ class DeliveryController {
         end_date,
         createdAt,
         updatedAt,
-        recipient_id,
+        recipient,
       } = order;
       const { deliveryManId, name, email, avatar } = order.deliveryman;
 
@@ -96,7 +96,7 @@ class DeliveryController {
         end_date,
         createdAt,
         updatedAt,
-        recipient_id,
+        recipient,
         deliveryman: {
           id: deliveryManId,
           idStr: String(deliveryManId).padStart(2, '00'),
