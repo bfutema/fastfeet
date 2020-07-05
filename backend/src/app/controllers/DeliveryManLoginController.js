@@ -35,10 +35,16 @@ class DeliveryManLoginController {
 
     const { name, email, createdAt, avatar } = deliveryMan;
 
+    const split = name.split(' ');
+    const initialLetters = `${split[0].slice(0, 1)}${split[
+      split.length - 1
+    ].slice(0, 1)}`.toUpperCase();
+
     return res.json({
       deliveryman: {
         deliveryManId: id,
         name,
+        initialLetters,
         email,
         createdAt,
         avatar,

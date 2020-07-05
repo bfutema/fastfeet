@@ -2,6 +2,8 @@ import * as Yup from 'yup';
 import { getHours, setHours, setMinutes, setSeconds, subHours } from 'date-fns';
 import { Op } from 'sequelize';
 import Order from '../models/Order';
+import Recipient from '../models/Recipient';
+import DeliveryMan from '../models/DeliveryMan';
 
 class DeliveryController {
   async index(req, res) {
@@ -18,6 +20,16 @@ class DeliveryController {
         },
         limit: 8,
         offset: (page - 1) * 8,
+        include: [
+          {
+            model: Recipient,
+            as: 'recipient',
+          },
+          {
+            model: DeliveryMan,
+            as: 'deliveryman',
+          },
+        ],
       });
 
       // delivers = delivers.map((deliveryMan) => {
@@ -41,11 +53,60 @@ class DeliveryController {
       return res.json(delivers);
     }
 
-    const delivers = await Order.findAll({
+    let delivers = await Order.findAll({
       order: [['created_at', 'DESC']],
       where: { deliveryman_id, cancelled_at: null, end_date: null },
       limit: 8,
       offset: (page - 1) * 8,
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+        },
+        {
+          model: DeliveryMan,
+          as: 'deliveryman',
+        },
+      ],
+    });
+
+    delivers = delivers.map((order) => {
+      const split = order.deliveryman.name.split(' ');
+      const initialLetters = `${split[0].slice(0, 1)}${split[
+        split.length - 1
+      ].slice(0, 1)}`.toUpperCase();
+
+      const {
+        id,
+        product,
+        cancelled_at,
+        start_date,
+        end_date,
+        createdAt,
+        updatedAt,
+        recipient_id,
+      } = order;
+      const { deliveryManId, name, email, avatar } = order.deliveryman;
+
+      return {
+        id,
+        product,
+        cancelled_at,
+        start_date,
+        end_date,
+        createdAt,
+        updatedAt,
+        recipient_id,
+        deliveryman: {
+          id: deliveryManId,
+          idStr: String(deliveryManId).padStart(2, '00'),
+          name,
+          initialLetters,
+          email,
+          avatar,
+        },
+        signature_id: null,
+      };
     });
 
     return res.json(delivers);
