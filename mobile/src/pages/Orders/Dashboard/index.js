@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 
@@ -26,7 +27,7 @@ import {
   List,
 } from './styles';
 
-export default function Dashboard() {
+export default function Dashboard({ navigation }) {
   const dispatch = useDispatch();
 
   const deliveryManId = useSelector((state) => state.auth.deliveryManId);
@@ -75,6 +76,10 @@ export default function Dashboard() {
     }
   }
 
+  function handleNavigate() {
+    navigation.navigate('Details');
+  }
+
   function handleLogout() {
     dispatch(signOut());
   }
@@ -115,16 +120,23 @@ export default function Dashboard() {
       <List
         data={orders}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Order data={item} />}
+        renderItem={({ item }) => (
+          <Order data={item} handleNavigate={handleNavigate} />
+        )}
       />
     </Container>
   );
 }
 
 Dashboard.navigationOptions = {
-  tabBarLabel: 'Entregas',
   // eslint-disable-next-line react/prop-types
   tabBarIcon: ({ tintColor }) => (
     <Icon name="view-headline" size={26} color={tintColor} />
   ),
+};
+
+Dashboard.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };

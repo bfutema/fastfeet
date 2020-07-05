@@ -25,7 +25,7 @@ import {
   ButtonText,
 } from './styles';
 
-export default function Order({ data }) {
+export default function Order({ data, handleNavigate }) {
   const dateParsed = useMemo(
     () =>
       format(parseISO(data.createdAt), 'dd/MM/yyyy', {
@@ -65,7 +65,7 @@ export default function Order({ data }) {
           <City>{data.recipient && data.recipient.city}</City>
         </CityInfo>
         <Details>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigate}>
             <ButtonText>Ver detalhes</ButtonText>
           </TouchableOpacity>
         </Details>
