@@ -37,6 +37,8 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'object-curly-newline': 'off',
     'implicit-arrow-linebreak': 'off',
+    'no-confusing-arrow': 'off',
+    indent: 'off',
   },
   settings: {
     'import/resolver': {

@@ -20,8 +20,6 @@ export function* signIn({ payload }) {
     yield put(signInSuccess(token, deliveryman));
 
     Alert.alert('Sucesso!', 'Bem vindo ao Fast Feet :)');
-
-    // history.push('/dashboard');
   } catch (err) {
     Alert.alert(
       'Falha na autenticação!',
@@ -41,12 +39,7 @@ export function setToken({ payload }) {
   }
 }
 
-export function signOut() {
-  // history.push('/');
-}
-
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
-  takeLatest('@auth/SIGN_OUT', signOut),
 ]);

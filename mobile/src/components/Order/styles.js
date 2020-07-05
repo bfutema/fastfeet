@@ -1,4 +1,3 @@
-import { BaseButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -44,7 +43,7 @@ export const Step = styled.View`
 export const Dot = styled.View`
   width: 10px;
   height: 10px;
-  background-color: #ffffff;
+  background-color: ${(props) => (props.fill ? '#7d40e7' : '#ffffff')};
   border: 1px solid #7d40e7;
   border-radius: 5px;
   margin-bottom: 6px;

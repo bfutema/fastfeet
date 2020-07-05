@@ -11,8 +11,17 @@ export const Welcome = styled.View`
   padding: 20px;
 `;
 
+export const AvatarImage = styled.Image`
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Avatar = styled.View`
-  background-color: #f4effc;
+  ${(props) => !props.avatar && 'background-color: #f4effc;'}
   width: 70px;
   height: 70px;
   border-radius: 35px;
@@ -36,7 +45,7 @@ export const WelcomeMessage = styled.Text`
 
 export const Username = styled.Text`
   color: #444444;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: bold;
 `;
 

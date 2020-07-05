@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { signOut } from '~/store/modules/auth/actions';
+
+import api from '~/services/api';
 
 import Order from '~/components/Order';
 
 import {
   Container,
   Welcome,
+  AvatarImage,
   Avatar,
   Text,
   WelcomeMessage,
@@ -21,20 +26,53 @@ import {
   List,
 } from './styles';
 
-const data = [1, 2, 3];
-
 export default function Dashboard() {
-  function handleLogout() {}
+  const dispatch = useDispatch();
+
+  const deliveryManId = useSelector((state) => state.auth.deliveryManId);
+  const deliveryManName = useSelector((state) => state.auth.deliveryMan.name);
+  const deliveryManInitialLetters = useSelector(
+    (state) => state.auth.deliveryMan.initialLetters
+  );
+  const deliveryManAvatar = useSelector(
+    (state) => state.auth.deliveryMan.avatar.url
+  );
+
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    async function loadOrders() {
+      const response = await api.get(
+        `deliverymans/${deliveryManId}/deliveries`
+      );
+
+      setOrders(response.data);
+    }
+
+    loadOrders();
+  }, [deliveryManId]);
+
+  function handleLogout() {
+    dispatch(signOut());
+  }
 
   return (
     <Container>
       <Welcome>
-        <Avatar>
-          <Text>GA</Text>
-        </Avatar>
+        {deliveryManAvatar ? (
+          <AvatarImage
+            source={{
+              uri: deliveryManAvatar.replace('localhost', '192.168.0.2'),
+            }}
+          />
+        ) : (
+          <Avatar avatar={deliveryManAvatar}>
+            {deliveryManAvatar && <Text>{deliveryManInitialLetters}</Text>}
+          </Avatar>
+        )}
         <User>
           <WelcomeMessage>Bem vindo de volta,</WelcomeMessage>
-          <Username>Gaspar Antunes</Username>
+          <Username>{deliveryManName}</Username>
         </User>
         <TouchableOpacity onPress={handleLogout}>
           <Icon name="input" size={26} color="#E74040" />
@@ -52,8 +90,8 @@ export default function Dashboard() {
         </Actions>
       </ListHeader>
       <List
-        data={data}
-        keyExtractor={(item) => String(item)}
+        data={orders}
+        keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Order data={item} />}
       />
     </Container>
@@ -62,6 +100,7 @@ export default function Dashboard() {
 
 Dashboard.navigationOptions = {
   tabBarLabel: 'Entregas',
+  // eslint-disable-next-line react/prop-types
   tabBarIcon: ({ tintColor }) => (
     <Icon name="view-headline" size={26} color={tintColor} />
   ),

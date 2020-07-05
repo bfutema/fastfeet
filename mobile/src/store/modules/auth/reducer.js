@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   token: null,
   signed: false,
   loading: false,
+  deliveryManId: 0,
+  deliveryMan: {},
 };
 
 export default function auth(state = INITIAL_STATE, action) {
@@ -11,12 +13,14 @@ export default function auth(state = INITIAL_STATE, action) {
     switch (action.type) {
       case '@auth/SIGN_IN_REQUEST': {
         draft.loading = true;
+        draft.deliveryManId = action.payload.deliveryManId;
         break;
       }
       case '@auth/SIGN_IN_SUCCESS': {
         draft.token = action.payload.token;
         draft.signed = true;
         draft.loading = false;
+        draft.deliveryMan = action.payload.deliveryman;
         break;
       }
       case '@auth/SIGN_FAILURE': {
