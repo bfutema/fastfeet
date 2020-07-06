@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
@@ -21,7 +22,19 @@ import {
   ButtonText,
 } from './styles';
 
-export default function Details() {
+export default function Details({ navigation }) {
+  function handleNavigateToNewProblem() {
+    navigation.navigate('NewProblem');
+  }
+
+  function handleNavigateToProblems() {
+    navigation.navigate('Problems');
+  }
+
+  function handleNavigateToConfirmDeliver() {
+    navigation.navigate('ConfirmDeliver');
+  }
+
   return (
     <Background>
       <WhiteBackground />
@@ -69,19 +82,19 @@ export default function Details() {
           </View>
         </Card>
         <Actions>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigateToNewProblem}>
             <ButtonContent>
               <MAIcon name="highlight-off" size={20} color="#E74040" />
               <ButtonText>Informar Problema</ButtonText>
             </ButtonContent>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigateToProblems}>
             <ButtonContent>
               <MCIcon name="information-outline" size={20} color="#E7BA40" />
               <ButtonText>Visualizar Problemas</ButtonText>
             </ButtonContent>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigateToConfirmDeliver}>
             <ButtonContent>
               <MCIcon name="check-circle-outline" size={20} color="#7D40E7" />
               <ButtonText>Confirmar Entrega</ButtonText>

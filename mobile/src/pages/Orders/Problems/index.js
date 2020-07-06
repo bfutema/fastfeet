@@ -1,7 +1,18 @@
 import React from 'react';
 
-import { Container } from './styles';
+import Background from '~/components/Background';
+
+import { WhiteBackground, Content } from './styles';
 
 export default function Problems() {
-  return <Container />;
+  return (
+    <Background>
+      <WhiteBackground />
+      <Content />
+    </Background>
+  );
 }
+
+Problems.navigationOptions = {
+  title: 'Visualizar problemas',
+};
