@@ -1,23 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import Background from '~/components/Background';
+import Problem from '~/components/Problem';
 
-import { WhiteBackground, Content, Title, Card, Text, Date } from './styles';
+import api from '~/services/api';
 
-export default function Problems() {
+import { WhiteBackground, Content, Title, List } from './styles';
+
+export default function Problems({ navigation }) {
+  const orderId = navigation.getParam('id');
+
+  const [problems, setProblems] = useState([]);
+
+  useEffect(() => {
+    async function loadProblems() {
+      const response = await api.get(`delivery/${orderId}/problems`);
+
+      setProblems(response.data);
+    }
+
+    loadProblems();
+  }, [orderId]);
+
   return (
     <Background>
       <WhiteBackground />
       <Content>
-        <Title>Encomenda 01</Title>
-        <Card>
-          <Text>Destinatário ausente</Text>
-          <Date>14/01/2020</Date>
-        </Card>
-        <Card>
-          <Text>Destinatário ausente</Text>
-          <Date>14/01/2020</Date>
-        </Card>
+        <Title>Encomenda {orderId}</Title>
+        <List
+          data={problems}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => <Problem data={item} />}
+        />
       </Content>
     </Background>
   );
@@ -25,4 +40,11 @@ export default function Problems() {
 
 Problems.navigationOptions = {
   title: 'Visualizar problemas',
+};
+
+Problems.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    getParam: PropTypes.func.isRequired,
+  }).isRequired,
 };
