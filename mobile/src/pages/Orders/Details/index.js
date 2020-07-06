@@ -59,7 +59,7 @@ export default function Details({ navigation }) {
   }, [endDate]);
 
   function handleNavigateToNewProblem() {
-    navigation.navigate('NewProblem');
+    navigation.navigate('NewProblem', { id });
   }
 
   function handleNavigateToProblems() {
