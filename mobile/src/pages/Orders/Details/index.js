@@ -10,6 +10,8 @@ import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Background from '~/components/Background';
 
+import api from '~/services/api';
+
 import {
   WhiteBackground,
   Content,
@@ -23,6 +25,7 @@ import {
   Actions,
   ButtonContent,
   ButtonText,
+  SubmitButton,
 } from './styles';
 
 export default function Details({ navigation }) {
@@ -68,6 +71,14 @@ export default function Details({ navigation }) {
 
   function handleNavigateToConfirmDeliver() {
     navigation.navigate('ConfirmDeliver', { deliveryManId, id });
+  }
+
+  async function handleWithdrawalOrder() {
+    await api.post(`deliverymans/${deliveryManId}/deliveries`, {
+      order_id: id,
+    });
+
+    navigation.navigate('Dashboard');
   }
 
   return (
@@ -142,6 +153,11 @@ export default function Details({ navigation }) {
             </ButtonContent>
           </TouchableOpacity>
         </Actions>
+        {!order.start_date && (
+          <SubmitButton onPress={handleWithdrawalOrder}>
+            Marcar como retirado
+          </SubmitButton>
+        )}
       </Content>
     </Background>
   );

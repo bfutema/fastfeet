@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import Button from '~/components/Button';
+
 export const WhiteBackground = styled.SafeAreaView`
   margin-top: 140px;
   background-color: #fff;
@@ -75,4 +77,9 @@ export const ButtonText = styled.Text`
   color: #999999;
   font-size: 12px;
   text-align: center;
+`;
+
+export const SubmitButton = styled(Button)`
+  background-color: #7d40e7;
+  margin-top: 10px;
 `;

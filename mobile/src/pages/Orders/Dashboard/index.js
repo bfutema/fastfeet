@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dimensions, TouchableOpacity } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { signOut } from '~/store/modules/auth/actions';
@@ -27,7 +28,7 @@ import {
   List,
 } from './styles';
 
-export default function Dashboard({ navigation }) {
+function Dashboard({ navigation, isFocused }) {
   const dispatch = useDispatch();
 
   const [isPortrait, setIsPortrait] = useState(true);
@@ -61,8 +62,8 @@ export default function Dashboard({ navigation }) {
       setOrders(response.data);
     }
 
-    loadOrders();
-  }, [deliveryManId]);
+    if (isFocused) loadOrders();
+  }, [deliveryManId, isFocused]);
 
   useEffect(() => {
     async function loadOrders() {
@@ -145,3 +146,5 @@ Dashboard.propTypes = {
     navigate: PropTypes.func.isRequired,
   }).isRequired,
 };
+
+export default withNavigationFocus(Dashboard);
