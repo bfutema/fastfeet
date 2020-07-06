@@ -49,7 +49,7 @@ export default function Dashboard({ navigation }) {
     const { width: deviceWidth } = Dimensions.get('window');
 
     setWidth(deviceWidth);
-    setIsPortrait(!isPortrait);
+    // setIsPortrait(!isPortrait);
   });
 
   useEffect(() => {
