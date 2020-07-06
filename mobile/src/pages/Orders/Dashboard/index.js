@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { TouchableOpacity } from 'react-native';
+import { Dimensions, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { signOut } from '~/store/modules/auth/actions';
@@ -30,6 +30,9 @@ import {
 export default function Dashboard({ navigation }) {
   const dispatch = useDispatch();
 
+  const [isPortrait, setIsPortrait] = useState(true);
+  const [width, setWidth] = useState(Dimensions.get('window').width);
+
   const deliveryManId = useSelector((state) => state.auth.deliveryManId);
   const deliveryManName = useSelector((state) => state.auth.deliveryMan.name);
   const deliveryManInitialLetters = useSelector(
@@ -41,6 +44,13 @@ export default function Dashboard({ navigation }) {
 
   const [orders, setOrders] = useState([]);
   const [hasFilter, setHasFilter] = useState(false);
+
+  Dimensions.addEventListener('change', () => {
+    const { width: deviceWidth } = Dimensions.get('window');
+
+    setWidth(deviceWidth);
+    setIsPortrait(!isPortrait);
+  });
 
   useEffect(() => {
     async function loadOrders() {
@@ -86,26 +96,28 @@ export default function Dashboard({ navigation }) {
 
   return (
     <Container>
-      <Welcome>
-        {deliveryManAvatar ? (
-          <AvatarImage
-            source={{
-              uri: deliveryManAvatar.replace('localhost', '192.168.0.2'),
-            }}
-          />
-        ) : (
-          <Avatar avatar={deliveryManAvatar}>
-            {deliveryManAvatar && <Text>{deliveryManInitialLetters}</Text>}
-          </Avatar>
-        )}
-        <User>
-          <WelcomeMessage>Bem vindo de volta,</WelcomeMessage>
-          <Username>{deliveryManName}</Username>
-        </User>
-        <TouchableOpacity onPress={handleLogout}>
-          <Icon name="login-variant" size={26} color="#E74040" />
-        </TouchableOpacity>
-      </Welcome>
+      {isPortrait && (
+        <Welcome>
+          {deliveryManAvatar ? (
+            <AvatarImage
+              source={{
+                uri: deliveryManAvatar.replace('localhost', '192.168.0.2'),
+              }}
+            />
+          ) : (
+            <Avatar avatar={deliveryManAvatar}>
+              {deliveryManAvatar && <Text>{deliveryManInitialLetters}</Text>}
+            </Avatar>
+          )}
+          <User>
+            <WelcomeMessage>Bem vindo de volta,</WelcomeMessage>
+            <Username>{deliveryManName}</Username>
+          </User>
+          <TouchableOpacity onPress={handleLogout}>
+            <Icon name="login-variant" size={26} color="#E74040" />
+          </TouchableOpacity>
+        </Welcome>
+      )}
       <ListHeader>
         <Title>Entregas</Title>
         <Actions>
@@ -121,7 +133,7 @@ export default function Dashboard({ navigation }) {
         data={orders}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
-          <Order data={item} handleNavigate={handleNavigate} />
+          <Order data={item} width={width} handleNavigate={handleNavigate} />
         )}
       />
     </Container>

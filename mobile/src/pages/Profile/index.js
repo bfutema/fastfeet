@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { useSelector, useDispatch } from 'react-redux';
-// import { TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { signOut } from '~/store/modules/auth/actions';

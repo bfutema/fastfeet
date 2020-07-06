@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import { TouchableOpacity } from 'react-native';
+
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {
   Container,
-  Steps,
-  Line,
   TitleArea,
   Title,
+  StepsInfo,
+  Steps,
+  Line,
   Step,
   Dot,
   StepText,
@@ -25,7 +27,7 @@ import {
   ButtonText,
 } from './styles';
 
-export default function Order({ data, handleNavigate }) {
+export default function Order({ data, width, handleNavigate }) {
   const dateParsed = useMemo(
     () =>
       format(parseISO(data.createdAt), 'dd/MM/yyyy', {
@@ -40,21 +42,23 @@ export default function Order({ data, handleNavigate }) {
         <Icon name="truck" size={20} color="#7D40E7" />
         <Title>Encomenda {data.id}</Title>
       </TitleArea>
-      <Line />
-      <Steps>
-        <Step>
-          <Dot fill />
-          <StepText>Aguardando Retirada</StepText>
-        </Step>
-        <Step>
-          <Dot fill={data.start_date && true} />
-          <StepText>Retirada</StepText>
-        </Step>
-        <Step>
-          <Dot fill={data.end_date && true} />
-          <StepText>Entregue</StepText>
-        </Step>
-      </Steps>
+      <StepsInfo>
+        <Line width={width} />
+        <Steps>
+          <Step>
+            <Dot fill />
+            <StepText>Aguardando Retirada</StepText>
+          </Step>
+          <Step>
+            <Dot fill={data.start_date && true} />
+            <StepText>Retirada</StepText>
+          </Step>
+          <Step>
+            <Dot fill={data.end_date && true} />
+            <StepText>Entregue</StepText>
+          </Step>
+        </Steps>
+      </StepsInfo>
       <Informations>
         <DateInfo>
           <LabelDate>Data</LabelDate>

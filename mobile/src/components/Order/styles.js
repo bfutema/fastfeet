@@ -4,23 +4,24 @@ export const Container = styled.View`
   border: 1px solid #ddddddcc;
   border-radius: 8px;
   margin-bottom: 28px;
+`;
+
+export const StepsInfo = styled.View`
   position: relative;
+`;
+
+export const Line = styled.View`
+  background-color: #7d40e7;
+  width: ${(props) => `${props.width - 150}px`};
+  height: 1px;
+  top: 27px;
+  margin: 0 auto;
 `;
 
 export const Steps = styled.View`
   padding: 22px 10px;
   flex-direction: row;
   justify-content: space-between;
-`;
-
-export const Line = styled.View`
-  background-color: #7d40e7;
-  width: 220px;
-  height: 1px;
-  position: absolute;
-  top: 64px;
-  left: 42px;
-  margin: 0 auto;
 `;
 
 export const TitleArea = styled.View`
