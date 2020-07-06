@@ -2,13 +2,16 @@ import React from 'react';
 
 import Background from '~/components/Background';
 
-import { WhiteBackground, Content } from './styles';
+import { WhiteBackground, Content, Card, SubmitButton } from './styles';
 
 export default function ConfirmDeliver() {
   return (
     <Background>
       <WhiteBackground />
-      <Content />
+      <Content>
+        <Card />
+        <SubmitButton>Enviar</SubmitButton>
+      </Content>
     </Background>
   );
 }
