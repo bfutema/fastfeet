@@ -11,7 +11,7 @@ export const WhiteBackground = styled.SafeAreaView`
 
 export const Content = styled.View`
   position: absolute;
-  top: 80px;
+  top: 60px;
   width: 100%;
   padding: 0 20px;
 `;
