@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import MAIcon from 'react-native-vector-icons/MaterialIcons';
@@ -108,4 +108,10 @@ export default function Details({ navigation }) {
 
 Details.navigationOptions = {
   title: 'Detalhes da encomenda',
+};
+
+Details.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
