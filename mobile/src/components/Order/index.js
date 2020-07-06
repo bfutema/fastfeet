@@ -69,7 +69,7 @@ export default function Order({ data, width, handleNavigate }) {
           <City>{data.recipient && data.recipient.city}</City>
         </CityInfo>
         <Details>
-          <TouchableOpacity onPress={handleNavigate}>
+          <TouchableOpacity onPress={() => handleNavigate(data)}>
             <ButtonText>Ver detalhes</ButtonText>
           </TouchableOpacity>
         </Details>

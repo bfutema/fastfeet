@@ -38,6 +38,7 @@ module.exports = {
     'object-curly-newline': 'off',
     'implicit-arrow-linebreak': 'off',
     'no-confusing-arrow': 'off',
+    'no-nested-ternary': 'off',
     indent: 'off',
   },
   settings: {

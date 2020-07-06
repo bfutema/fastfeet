@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
+import { parseISO, format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import MAIcon from 'react-native-vector-icons/MaterialIcons';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -23,16 +26,48 @@ import {
 } from './styles';
 
 export default function Details({ navigation }) {
+  const order = navigation.getParam('order');
+
+  const deliveryManId = useSelector((state) => state.auth.deliveryManId);
+
+  const { id } = order;
+
+  const street = `${order.recipient.street}, ${order.recipient.number}`;
+  const address = `${street}, ${order.recipient.city} - ${order.recipient.state}, ${order.recipient.zip}`;
+
+  const startDate = order.start_date;
+  const endDate = order.end_date;
+
+  const startDateParsed = useMemo(() => {
+    if (startDate) {
+      return format(parseISO(startDate), 'dd/MM/yyyy', {
+        locale: pt,
+      });
+    }
+
+    return null;
+  }, [startDate]);
+
+  const endDateParsed = useMemo(() => {
+    if (endDate) {
+      return format(parseISO(endDate), 'dd/MM/yyyy', {
+        locale: pt,
+      });
+    }
+
+    return null;
+  }, [endDate]);
+
   function handleNavigateToNewProblem() {
     navigation.navigate('NewProblem');
   }
 
   function handleNavigateToProblems() {
-    navigation.navigate('Problems');
+    navigation.navigate('Problems', { id });
   }
 
   function handleNavigateToConfirmDeliver() {
-    navigation.navigate('ConfirmDeliver');
+    navigation.navigate('ConfirmDeliver', { deliveryManId, id });
   }
 
   return (
@@ -47,15 +82,15 @@ export default function Details({ navigation }) {
           <View>
             <Info>
               <Label>Destinatário</Label>
-              <Text>Ludwing van Beethoven</Text>
+              <Text>{order.recipient && order.recipient.name}</Text>
             </Info>
             <Info>
               <Label>Endereço de entrega</Label>
-              <Text>Rua Beethoven, 1729, Diadema - SP, 09960-580</Text>
+              <Text>{order.recipient && address}</Text>
             </Info>
             <Info>
               <Label>Produto</Label>
-              <Text>Yamaha SX7</Text>
+              <Text>{order.product}</Text>
             </Info>
           </View>
         </Card>
@@ -67,16 +102,22 @@ export default function Details({ navigation }) {
           <View>
             <Info>
               <Label>Status</Label>
-              <Text>Pendente</Text>
+              <Text>
+                {order.end_date
+                  ? 'Entregue'
+                  : order.start_date
+                  ? 'Retirada'
+                  : 'Pendente'}
+              </Text>
             </Info>
             <DatesInfo>
               <Info>
                 <Label>Data de retirada</Label>
-                <Text>14 / 01 / 2020</Text>
+                <Text>{startDateParsed || '-- / -- / --'}</Text>
               </Info>
               <Info>
                 <Label>Data de retirada</Label>
-                <Text>--/--/--</Text>
+                <Text>{endDateParsed || '-- / -- / --'}</Text>
               </Info>
             </DatesInfo>
           </View>
@@ -113,5 +154,6 @@ Details.navigationOptions = {
 Details.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
+    getParam: PropTypes.func.isRequired,
   }).isRequired,
 };

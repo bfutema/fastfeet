@@ -86,8 +86,8 @@ export default function Dashboard({ navigation }) {
     }
   }
 
-  function handleNavigate() {
-    navigation.navigate('Details');
+  function handleNavigate(order) {
+    navigation.navigate('Details', { order });
   }
 
   function handleLogout() {
@@ -139,13 +139,6 @@ export default function Dashboard({ navigation }) {
     </Container>
   );
 }
-
-Dashboard.navigationOptions = {
-  // eslint-disable-next-line react/prop-types
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="view-headline" size={26} color={tintColor} />
-  ),
-};
 
 Dashboard.propTypes = {
   navigation: PropTypes.shape({

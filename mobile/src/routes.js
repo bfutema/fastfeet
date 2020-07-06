@@ -30,6 +30,9 @@ export default (signedIn = false) =>
                     screen: Dashboard,
                     navigationOptions: {
                       headerShown: false,
+                      cardStyle: {
+                        backgroundColor: '#fff',
+                      },
                     },
                   },
                   Details,
@@ -62,9 +65,6 @@ export default (signedIn = false) =>
               keyboardHidesTabBar: true,
               activeTintColor: '#7D40E7',
               inactiveTintColor: '#999999',
-              style: {
-                backgroundColor: '#FFFFFF',
-              },
             },
           }
         ),
