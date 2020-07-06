@@ -72,6 +72,7 @@ class DeliveryProblemController {
   async store(req, res) {
     const schema = Yup.object().shape({
       deliveryman_id: Yup.number().required(),
+      description: Yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -87,7 +88,7 @@ class DeliveryProblemController {
       return res.status(401).json({ error: 'Order not found!' });
     }
 
-    if (order.deliveryman_id !== deliveryman_id) {
+    if (order.deliveryman_id !== Number(deliveryman_id)) {
       return res.status(401).json({
         error:
           'You cannot register a problem with an order that is not associated with you!',
