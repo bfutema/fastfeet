@@ -1,35 +1,14 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
-import Camera, { RNCamera } from 'react-native-camera';
-import * as RNFS from 'react-native-fs';
+import { RNCamera } from 'react-native-camera';
 
 import Background from '~/components/Background';
 
 import api from '~/services/api';
 
-import {
-  WhiteBackground,
-  Content,
-  Card,
-  CameraArea,
-  SubmitButton,
-} from './styles';
-
-const PendingView = () => (
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: 'lightgreen',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    <Text>Waiting</Text>
-  </View>
-);
+import { WhiteBackground, Content, CameraArea, SubmitButton } from './styles';
 
 const styles = StyleSheet.create({
   preview: {
@@ -53,23 +32,51 @@ export default function ConfirmDeliver({ navigation }) {
 
   const deliveryManId = useSelector((state) => state.auth.deliveryManId);
 
-  const [signatureId, setSignatureId] = useState(1);
-  const [image, setImage] = useState();
+  const [signatureId, setSignatureId] = useState(0);
 
-  const ref = useRef();
   const cameraRef = useRef();
 
   async function handleDeliverOrder() {
-    const response = await api.put(
-      `deliverymans/${deliveryManId}/deliveries/${orderId}`,
-      { signature_id: signatureId }
-    );
+    // MOCK
+    setSignatureId(1);
+
+    await api.put(`deliverymans/${deliveryManId}/deliveries/${orderId}`, {
+      signature_id: signatureId,
+    });
 
     navigation.navigate('Dashboard');
   }
 
   async function takePicture(camera) {
-    const options = { quality: 0.5, base64: false };
+    /*
+      Eu segui o tutorial da rocketseat onde ensina a fazer upload de
+      diversos arquivos que vem da camera, mas nenhuma das tentativas
+      deram certo para o meu caso, minha requisição fica com status
+      'skipped' e não realiza o envio para o backend, testei outras
+      libs (react-native-fetch-blob) para fazer upload mas sem sucesso,
+      com base no post da rocket eu tentei enviar usando formData porém
+      a requisição nem chega no backend, e quando uso o JSON.stringify
+      ele até chega no server porém com os dados nulos.
+
+      Link de referência usada: https://blog.rocketseat.com.br/react-native-upload-imagem/
+
+      Percebi que a lib react-native-camera salva a imagem no cache da
+      aplicação, notei isso quando renderizei uma Image do react-native
+      em tela e a imagem realmente estava salva também tentei buscar essa
+      imagem do cache para realizar o upload para o servidor mas também
+      sem sucesso, tentei utilizar libs que trabalham com imagens no cache
+      mas nenhuma conseguiu ler essa imagem que o react-native-camera gera
+      no cache :( Infelizmente minha aplicação mobile não ficará 100% completa.
+
+      Gostaria muito que a Rocketseat fizesse um vídeo falando sobre isso
+      e como solucionar este problema, afinal, usar a camera foi simples
+      o complicado foi enviar essa imagem para o server backend em node
+      utilizando o multer.
+
+      Devido a este problema eu fiz um mock com o deliveryManId = 1
+     */
+
+    const options = { quality: 0.5, base64: true };
     const data = await camera.takePictureAsync(options);
 
     const formData = new FormData();
@@ -81,9 +88,7 @@ export default function ConfirmDeliver({ navigation }) {
       filename: 'test.jpeg',
     });
 
-    const response = await api.post('files', formData);
-
-    // console.tron.log(response);
+    // await api.post('files', formData);
   }
 
   return (
@@ -97,37 +102,20 @@ export default function ConfirmDeliver({ navigation }) {
             type={RNCamera.Constants.Type.back}
             flashMode={RNCamera.Constants.FlashMode.on}
             androidCameraPermissionOptions={{
-              title: 'Permission to use camera',
-              message: 'We need your permission to use your camera',
-              buttonPositive: 'Ok',
-              buttonNegative: 'Cancel',
-            }}
-            androidRecordAudioPermissionOptions={{
-              title: 'Permission to use audio recording',
-              message: 'We need your permission to use your audio',
+              title: 'Permissão para usar a câmera',
+              message: 'Nós precisamos de sua permissão para utilizar a câmera',
               buttonPositive: 'Ok',
               buttonNegative: 'Cancel',
             }}
           >
-            {({ camera, status, recordAudioPermissionStatus }) => {
-              if (status !== 'READY') return <PendingView />;
-              return (
-                <View
-                  style={{
-                    flex: 0,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => takePicture(camera)}
-                    style={styles.capture}
-                  >
-                    <Text style={{ fontSize: 14 }}> SNAP </Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            }}
+            {({ camera }) => (
+              <TouchableOpacity
+                onPress={() => takePicture(camera)}
+                style={styles.capture}
+              >
+                <Text style={{ fontSize: 14 }}>SNAP</Text>
+              </TouchableOpacity>
+            )}
           </RNCamera>
         </CameraArea>
         <SubmitButton onPress={handleDeliverOrder}>Enviar</SubmitButton>
