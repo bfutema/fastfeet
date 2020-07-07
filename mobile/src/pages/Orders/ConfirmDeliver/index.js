@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    top: 34,
   },
   capture: {
     flex: 0,
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 20,
     alignSelf: 'center',
-    margin: 20,
+    // margin: 20,
   },
 });
 
@@ -32,14 +33,11 @@ export default function ConfirmDeliver({ navigation }) {
 
   const deliveryManId = useSelector((state) => state.auth.deliveryManId);
 
-  const [signatureId, setSignatureId] = useState(0);
+  const [signatureId, setSignatureId] = useState(1);
 
   const cameraRef = useRef();
 
   async function handleDeliverOrder() {
-    // MOCK
-    setSignatureId(1);
-
     await api.put(`deliverymans/${deliveryManId}/deliveries/${orderId}`, {
       signature_id: signatureId,
     });

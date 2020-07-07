@@ -69,7 +69,7 @@ export const ButtonContent = styled.View`
   background-color: #f8f9fd;
   align-items: center;
   justify-content: center;
-  max-width: 105px;
+  max-width: 122px;
   padding: 12px 22px;
 `;
 

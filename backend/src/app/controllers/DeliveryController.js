@@ -203,6 +203,7 @@ class DeliveryController {
   }
 
   async update(req, res) {
+    console.log(req.body);
     const schema = Yup.object().shape({
       signature_id: Yup.number().required(),
     });

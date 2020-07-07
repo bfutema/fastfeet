@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <img width="100%" height="100%" src="https://github.com/BrunoFutema/fastfeet/blob/develop/public/assets/fastfeet.gif" height="1920" width="1080" alt="Fastfeet" />
+  <img width="100%" height="100%" src="https://github.com/BrunoFutema/fastfeet/blob/develop/FastFeetWeb.gif" height="1920" width="1080" alt="Fastfeet" />
 </p>
 
 ## :rocket: Technologies

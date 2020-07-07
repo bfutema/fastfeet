@@ -45,5 +45,5 @@ export const CameraArea = styled.View`
 
 export const SubmitButton = styled(Button)`
   background-color: #7d40e7;
-  margin-top: 10px;
+  margin-top: 80px;
 `;
