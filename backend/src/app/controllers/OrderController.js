@@ -14,6 +14,8 @@ class OrderController {
     const { id: orderId } = req.params;
     const { page = 1, q = '', pagination } = req.query;
 
+    const total = await Order.count();
+
     let query = {};
 
     if (pagination === 'true') {
@@ -227,6 +229,7 @@ class OrderController {
           initialLetters,
         },
         status,
+        total: Math.ceil(total / 8),
       };
     });
 

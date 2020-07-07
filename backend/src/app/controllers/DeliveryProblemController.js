@@ -13,6 +13,8 @@ class DeliveryProblemController {
   async list(req, res) {
     const { page = 1 } = req.query;
 
+    const total = await DeliveryProblem.count();
+
     let orders = await DeliveryProblem.findAll({
       order: [['id', 'DESC']],
       attributes: ['id', 'description', 'created_at', 'updated_at'],
@@ -47,6 +49,7 @@ class DeliveryProblemController {
           deliveryman_id: order.deliveryman_id,
           signature_id: order.signature_id,
         },
+        total: Math.ceil(total / 8),
       };
     });
 

@@ -8,6 +8,8 @@ class RecipientController {
     const { id: recipientId } = req.params;
     const { page = 1, q = '', pagination } = req.query;
 
+    const total = await Recipient.count();
+
     let query = {};
 
     if (pagination === 'true') {
@@ -65,6 +67,7 @@ class RecipientController {
         zip,
         createdAt,
         updatedAt,
+        total: Math.ceil(total / 8),
       };
     });
 

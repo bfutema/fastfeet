@@ -9,6 +9,8 @@ class DeliveryManController {
     const { id: deliveryManId } = req.params;
     const { page = 1, q = '', pagination } = req.query;
 
+    const total = await DeliveryMan.count();
+
     let query = {};
 
     if (pagination === 'true') {
@@ -88,6 +90,7 @@ class DeliveryManController {
         initialLetters,
         email,
         avatar,
+        total: Math.ceil(total / 8),
       };
     });
 
