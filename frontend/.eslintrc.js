@@ -40,6 +40,7 @@ module.exports = {
     'no-nested-ternary': 'off',
     'no-alert': 'off',
     'no-return-assign': 'off',
+    'no-plusplus': 'off',
   },
   settings: {
     'import/resolver': {

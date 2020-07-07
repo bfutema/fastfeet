@@ -15,17 +15,29 @@ import Badge from './Badge';
 import Modal from '~/components/Modal';
 
 import api from '~/services/api';
+import { paginate, cep } from '~/utils';
 
-import { Tr, Avatar, Span, ModalContent, Dates } from './styles';
+import {
+  Tr,
+  Avatar,
+  Span,
+  ModalContent,
+  Dates,
+  Pagination,
+  Page,
+} from './styles';
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const [pages, setPages] = useState([]);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
 
   const [modalSelected, setModalSelected] = useState({});
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const spansRef = useRef([]);
+  const paginationRef = useRef();
 
   useEffect(() => {
     async function searchOrders(q) {
@@ -35,19 +47,22 @@ export default function Orders() {
     }
 
     searchOrders(search);
-  }, [search]);
+  }, [page, search]);
 
   useEffect(() => {
     async function loadOrders() {
-      const response = await api.get('orders?pagination=true');
+      const response = await api.get(`orders?page=${page}&pagination=true`);
 
       spansRef.current = new Array(response.data);
 
+      const responsePages = paginate(page, response.data[0].total);
+
+      setPages(responsePages);
       setOrders(response.data);
     }
 
     loadOrders();
-  }, []);
+  }, [page]);
 
   function handleToggleVisible(index) {
     const { span: currentSpan } = spansRef.current[index];
@@ -57,16 +72,6 @@ export default function Orders() {
     } else {
       currentSpan.classList.add('active');
     }
-  }
-
-  function cep(value) {
-    value = value.replace(/\D/g, '');
-
-    if (value.length > 8) value = value.slice(0, -1);
-
-    value = value.replace(/(\d{5})(\d)/, '$1-$2');
-
-    return value;
   }
 
   function handleToggleModal(e, id) {
@@ -95,6 +100,12 @@ export default function Orders() {
         end_date,
       });
       setIsOpenModal(!isOpenModal);
+    }
+  }
+
+  function handlePaginate(numberPage) {
+    if (!String(numberPage).includes('...')) {
+      setPage(numberPage);
     }
   }
 
@@ -198,6 +209,17 @@ export default function Orders() {
           </tbody>
         </>
       </Table>
+      <Pagination ref={paginationRef}>
+        {pages.map((p) => (
+          <Page
+            key={typeof p === 'string' ? Math.random() : String(p)}
+            onClick={() => handlePaginate(p)}
+            active={!String(p).includes('...') && Number(p) === page}
+          >
+            {p}
+          </Page>
+        ))}
+      </Pagination>
     </>
   );
 }

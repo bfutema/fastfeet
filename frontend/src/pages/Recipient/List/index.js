@@ -10,13 +10,18 @@ import BalloonActions, {
 } from '~/components/BalloonActions';
 
 import api from '~/services/api';
+import { paginate } from '~/utils';
 
-import { Tr, Span } from './styles';
+import { Tr, Span, Pagination, Page } from './styles';
 
 export default function Recipients() {
   const [recipients, setRecipients] = useState([]);
+  const [pages, setPages] = useState([]);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+
   const spansRef = useRef([]);
+  const paginationRef = useRef();
 
   useEffect(() => {
     async function searchRecipients(q) {
@@ -30,15 +35,18 @@ export default function Recipients() {
 
   useEffect(() => {
     async function loadRecipients() {
-      const response = await api.get('recipients?pagination=true');
+      const response = await api.get(`recipients?page=${page}&pagination=true`);
 
       spansRef.current = new Array(response.data);
 
+      const responsePages = paginate(page, response.data[0].total);
+
+      setPages(responsePages);
       setRecipients(response.data);
     }
 
     loadRecipients();
-  }, []);
+  }, [page]);
 
   function handleToggleVisible(index) {
     const { span: currentSpan } = spansRef.current[index];
@@ -50,64 +58,83 @@ export default function Recipients() {
     }
   }
 
+  function handlePaginate(numberPage) {
+    if (!String(numberPage).includes('...')) {
+      setPage(numberPage);
+    }
+  }
+
   return (
-    <Table
-      title="Gerenciando destinatários"
-      searchPlaceholder="destinatários"
-      buttonColor="var(--primary-color)"
-      buttonText="Cadastrar"
-      buttonFontSize={12}
-      buttonFontColor="#fff"
-      buttonType="link"
-      linkUrl="/save/recipient"
-      backButton
-      backButtonText="Voltar"
-      actions
-      search={search}
-      setSearch={setSearch}
-    >
-      <>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Endereço</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {recipients.map((recipient, index) => (
-            <Tr key={recipient.id}>
-              <td>#{recipient.idStr}</td>
-              <td>{recipient.name}</td>
-              <td>
-                {recipient.street}, {recipient.number}, {recipient.city} -{' '}
-                {recipient.state}
-              </td>
-              <td>
-                <Span
-                  ref={(span) => (spansRef.current[index] = { span })}
-                  onMouseEnter={() => handleToggleVisible(index)}
-                  onMouseLeave={() => handleToggleVisible(index)}
-                >
-                  <FiMoreHorizontal size={16} color="#999999" />
-                  <BalloonActions width={140}>
-                    <EditLink
-                      link={`/save/recipient/${recipient.id}`}
-                      data={recipient}
-                    />
-                    <DeleteLink
-                      id={recipient.id}
-                      text="Excluir"
-                      func={deleteRecipientRequest}
-                    />
-                  </BalloonActions>
-                </Span>
-              </td>
-            </Tr>
-          ))}
-        </tbody>
-      </>
-    </Table>
+    <>
+      <Table
+        title="Gerenciando destinatários"
+        searchPlaceholder="destinatários"
+        buttonColor="var(--primary-color)"
+        buttonText="Cadastrar"
+        buttonFontSize={12}
+        buttonFontColor="#fff"
+        buttonType="link"
+        linkUrl="/save/recipient"
+        backButton
+        backButtonText="Voltar"
+        actions
+        search={search}
+        setSearch={setSearch}
+      >
+        <>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Endereço</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recipients.map((recipient, index) => (
+              <Tr key={recipient.id}>
+                <td>#{recipient.idStr}</td>
+                <td>{recipient.name}</td>
+                <td>
+                  {recipient.street}, {recipient.number}, {recipient.city} -{' '}
+                  {recipient.state}
+                </td>
+                <td>
+                  <Span
+                    ref={(span) => (spansRef.current[index] = { span })}
+                    onMouseEnter={() => handleToggleVisible(index)}
+                    onMouseLeave={() => handleToggleVisible(index)}
+                  >
+                    <FiMoreHorizontal size={16} color="#999999" />
+                    <BalloonActions width={140}>
+                      <EditLink
+                        link={`/save/recipient/${recipient.id}`}
+                        data={recipient}
+                      />
+                      <DeleteLink
+                        id={recipient.id}
+                        text="Excluir"
+                        func={deleteRecipientRequest}
+                      />
+                    </BalloonActions>
+                  </Span>
+                </td>
+              </Tr>
+            ))}
+          </tbody>
+        </>
+      </Table>
+      <Pagination ref={paginationRef}>
+        {pages.map((p) => (
+          <Page
+            key={typeof p === 'string' ? Math.random() : String(p)}
+            onClick={() => handlePaginate(p)}
+            active={!String(p).includes('...') && Number(p) === page}
+          >
+            {p}
+          </Page>
+        ))}
+      </Pagination>
+    </>
   );
 }

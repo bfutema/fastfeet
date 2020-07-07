@@ -12,27 +12,37 @@ import BalloonActions, {
 import Modal from '~/components/Modal';
 
 import api from '~/services/api';
+import { paginate } from '~/utils';
 
-import { Tr, Span, ModalContent } from './styles';
+import { Tr, Span, ModalContent, Pagination, Page } from './styles';
 
 export default function Problems() {
   const [deliveryProblems, setDeliveryProblems] = useState([]);
+  const [pages, setPages] = useState([]);
+  const [page, setPage] = useState(1);
+
   const spansRef = useRef([]);
+  const paginationRef = useRef();
 
   const [modalSelected, setModalSelected] = useState({});
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     async function loadDeliveryProblems() {
-      const response = await api.get('delivery/problems');
+      const response = await api.get(
+        `delivery/problems?page=${page}&pagination=true`
+      );
 
       spansRef.current = new Array(response.data);
 
+      const responsePages = paginate(page, response.data[0].total);
+
+      setPages(responsePages);
       setDeliveryProblems(response.data);
     }
 
     loadDeliveryProblems();
-  }, []);
+  }, [page]);
 
   function handleToggleVisible(index) {
     const { span: currentSpan } = spansRef.current[index];
@@ -57,6 +67,12 @@ export default function Problems() {
       });
 
       setIsOpenModal(!isOpenModal);
+    }
+  }
+
+  function handlePaginate(numberPage) {
+    if (!String(numberPage).includes('...')) {
+      setPage(numberPage);
     }
   }
 
@@ -108,6 +124,17 @@ export default function Problems() {
           </tbody>
         </>
       </Table>
+      <Pagination ref={paginationRef}>
+        {pages.map((p) => (
+          <Page
+            key={typeof p === 'string' ? Math.random() : String(p)}
+            onClick={() => handlePaginate(p)}
+            active={!String(p).includes('...') && Number(p) === page}
+          >
+            {p}
+          </Page>
+        ))}
+      </Pagination>
     </>
   );
 }
