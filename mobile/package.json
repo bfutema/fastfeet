@@ -17,7 +17,7 @@
     "immer": "^7.0.5",
     "prop-types": "^15.7.2",
     "react": "16.11.0",
-    "react-native": "^0.62.2",
+    "react-native": "^0.62.3",
     "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera.git",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.1",
